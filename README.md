@@ -28,29 +28,60 @@ grunt.loadNpmTasks('grunt-webdriver');
 In your project's Gruntfile, add a section named `webdriver` to the data
 object passed into `grunt.initConfig()`.
 
+_Run this task with the `grunt webdriver` command._
+
 ```js
 grunt.initConfig({
   webdriver: {
     options: {
       url: '<start-url>'
     },
-    files: ['<path-to-your-testfiles>'],
+    tests: ['<path-to-your-testfiles>'],
   },
 })
 ```
 
+### Options
+
+#### url
+Type: `String`<br>
+Default: *undefinded* (url is required).
+
+Specified the url of website, the tests are running on 
+
+#### browser
+Type: `String`<br>
+Default: *chrome*<br>
+Options: *chrome|firefox|opera|safari*
+
+Defines the browser
+
+#### logLevel
+Type: `String`<br>
+Default: *silent*<br>
+Options *silent|verbose*
+
+Set log level of webdriverjs API
+
+#### binary
+Type: `String`<br>
+Default: standard MacOSX browser path (e.g. Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome)
+
+Specify the binary path for the indicated browser __(important for windows user)__
 
 ### Usage Examples
 
 #### Required Options
-In this example, the required options are used to execute a simple test script.
+In this example, the minimum required options are used to execute a simple
+test script.
 
 ```js
 grunt.initConfig({
   webdriver: {
     dev: {
       options: {
-        url: 'http://github.com'
+        url: 'http://github.com',
+        browser: 'chrome'
       },
       tests: './test/github-test.js'
     }

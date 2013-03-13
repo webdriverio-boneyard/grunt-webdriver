@@ -8,9 +8,9 @@
 
 'use strict';
 
-var buster      = require('buster'),
-    webdriverjs = require('webdriverjs'),
-    isSeleniumServerRunning = require('../lib/isSeleniumServerRunning');
+var buster        = require('buster'),
+    webdriverjs   = require('webdriverjs'),
+    startSelenium = require('../lib/startSelenium');
 
 module.exports = function(grunt) {
 
@@ -40,13 +40,30 @@ module.exports = function(grunt) {
                         'safari.binary': '/Applications/Browser/Safari.app/Contents/MacOS/Safari'
                     }
                 }
-            });
+            }),
+            capabilities = [];
         
+        /**
+         * set capabilities for webdriverjs
+         */
+        if(options.binary === undefined) {
+            capabilities = options.capabilities[options.browser];
+        } else {
+            var seperator = options.browser === 'firefox' ? '_' : '.';
+            capabilities['browserName'] = options.browser,
+            capabilities[options.browser+seperator+'binary'] = options.binary;
+        }
+
         /**
          * initialize webdriver
          */
-        var driver = webdriverjs.remote({desiredCapabilities:options.capabilities[options.browser],logLevel: options.logLevel});
+        var driver = webdriverjs.remote({desiredCapabilities:capabilities,logLevel: options.logLevel});
 
+        /**
+         * specify special driver commands
+         * @param  {Function} testSuite  command function
+         * @return {Object}              driver object
+         */
         driver.initTest = function(testSuite) {
             for(var test in testSuite) {
                 this.addCommand(test, testSuite[test]);
@@ -54,8 +71,18 @@ module.exports = function(grunt) {
             return this;
         };
 
-        isSeleniumServerRunning(function() {
+        /**
+         * starts selenium standalone server if its not running
+         * @param  {Function}        callback function on success
+         * @param  {Function} done   grunt done function for async callbacks
+         * @param  {Object}   grunt  grunt object
+         * @return null
+         */
+        startSelenium(function() {
 
+            /**
+             * require given test files and run buster
+             */
             var reporter  = buster.reporters.dots.create({ color: true }),
                 runner    = buster.testRunner.create(),
                 testCases = grunt.file.expand(grunt.file.expand(base + '/' + that.data.tests));
