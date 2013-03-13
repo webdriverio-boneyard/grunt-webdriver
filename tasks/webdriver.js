@@ -9,8 +9,8 @@
 'use strict';
 
 var buster      = require('buster'),
-    webdriverjs = require('webdriverjs'),
-    isSeleniumServerRunning = require('../lib/isSeleniumServerRunning');
+    webdriverjs = require('webdriverjs');
+    // isSeleniumServerRunning = require('../lib/isSeleniumServerRunning');
 
 module.exports = function(grunt) {
 
@@ -24,6 +24,8 @@ module.exports = function(grunt) {
         //     punctuation: '.',
         //     separator: ', '
         // });
+        
+        var done = this.async();
         
         /**
          * initialize webdriver
@@ -57,7 +59,7 @@ module.exports = function(grunt) {
 
             reporter.listen(runner);
             runner.runSuite(contexts).then(function(res) {
-                
+                done();
             });
 
         // },done);
