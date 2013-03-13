@@ -42,6 +42,13 @@ module.exports = function(grunt) {
                 }
             }),
             capabilities = [];
+
+        /**
+         * display a warning and abort task immediately if test URL is not defined
+         */
+        if(this.data.url === undefined) {
+            grunt.fail.fatal('the test url is not defined');
+        }
         
         /**
          * set capabilities for webdriverjs
@@ -94,7 +101,7 @@ module.exports = function(grunt) {
 
                 context.setUp = function() {
                     this.timeout = 9999999;
-                    driver.init().url(options.url);
+                    driver.init().url(that.data.url);
                 };
 
                 context.driver = driver;

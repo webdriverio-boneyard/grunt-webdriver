@@ -33,21 +33,15 @@ _Run this task with the `grunt webdriver` command._
 ```js
 grunt.initConfig({
   webdriver: {
-    options: {
-      url: '<start-url>'
-    },
-    tests: ['<path-to-your-testfiles>'],
+    dev: {
+      url: '<start-url>',
+      tests: ['<path-to-your-testfiles>']
+    }
   },
 })
 ```
 
 ### Options
-
-#### url
-Type: `String`<br>
-Default: *undefinded* (url is required).
-
-Specified the url of website, the tests are running on 
 
 #### browser
 Type: `String`<br>
@@ -79,10 +73,7 @@ test script.
 grunt.initConfig({
   webdriver: {
     dev: {
-      options: {
-        url: 'http://github.com',
-        browser: 'chrome'
-      },
+      url: 'http://github.com',
       tests: './test/github-test.js'
     }
   },
