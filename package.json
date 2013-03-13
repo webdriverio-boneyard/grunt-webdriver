@@ -1,7 +1,7 @@
 {
   "name": "grunt-webdriver",
   "description": "grunt-webdriver is a grunt plugin to run selenium tests with BusterJS and webdriverjs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/christianbromann/grunt-webdriver",
   "author": {
     "name": "Christian Bromann",
