@@ -17,7 +17,8 @@ module.exports = function(grunt) {
         webdriver: {
             dev: {
                 options: {
-                    url: 'http://github.com'
+                    url: 'http://github.com',
+                    browser: 'chrome'
                 },
                 tests: './test/*.js'
             }
