@@ -52,10 +52,18 @@ Defines the browser. If [PhantomJS](http://phantomjs.org/index.html) (`>v1.8`) i
 can run your Selenium tests in a headless browser. These tests are much faster then the standard
 browser tests.
 
+#### reporter
+Type: `String`<br>
+Default: *dots*<br>
+Options: *dots* | *specification* | *quiet* | *xml* | *tap* | *html* | *teamcity*
+
+Reporters visualize progress and results of test runs. Some are desired for continious integration
+tests. Find more information in the BusterJS [documentation](http://docs.busterjs.org/en/latest/modules/buster-test/reporters/#buster-test-reporters).
+
 #### logLevel
 Type: `String`<br>
 Default: *silent*<br>
-Options *silent|verbose*
+Options *silent* | *verbose*
 
 Set log level of webdriverjs API
 
@@ -108,7 +116,7 @@ exports.tests = [{
 ```
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 * 2013-03-13   v0.1.1   first working version, without special features

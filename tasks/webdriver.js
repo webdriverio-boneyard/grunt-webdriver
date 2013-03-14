@@ -10,7 +10,8 @@
 
 var buster        = require('buster'),
     webdriverjs   = require('webdriverjs'),
-    startSelenium = require('../lib/startSelenium');
+    startSelenium = require('../lib/startSelenium'),
+    inArray       = require('../lib/inArray');
 
 module.exports = function(grunt) {
 
@@ -22,6 +23,7 @@ module.exports = function(grunt) {
             options = this.options({
                 browser: 'chrome',
                 logLevel: 'silent',
+                reporter: 'dots',
                 capabilities: {
                     chrome: {
                         'browserName': 'chrome',
@@ -92,9 +94,16 @@ module.exports = function(grunt) {
             /**
              * require given test files and run buster
              */
-            var reporter  = buster.reporters.dots.create({ color: true }),
-                runner    = buster.testRunner.create(),
-                testCases = grunt.file.expand(grunt.file.expand(base + '/' + that.data.tests));
+            var runner    = buster.testRunner.create(),
+                testCases = grunt.file.expand(grunt.file.expand(base + '/' + that.data.tests)),
+                availableReporters = ['dots','specification','quiet','xml','tap','html','teamcity'],
+                reporter;
+
+            if(!inArray(availableReporters,options.reporter)) {
+                grunt.fail.fatal('couldn\'t find reporter "' + options.reporter+'". Please choose one of the following reporters: ' + availableReporters.join(','));
+            }
+
+            reporter = buster.reporters[options.reporter].create({ color: true });
 
             // get tests context
             var contexts = [];
