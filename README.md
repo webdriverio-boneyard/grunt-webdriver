@@ -46,9 +46,11 @@ grunt.initConfig({
 #### browser
 Type: `String`<br>
 Default: *chrome*<br>
-Options: *chrome|firefox|opera|safari*
+Options: *chrome* | *firefox* | *opera* | *safari* | *phantomjs*
 
-Defines the browser
+Defines the browser. If [PhantomJS](http://phantomjs.org/index.html) (`>v1.8`) is installed, you
+can run your Selenium tests in a headless browser. These tests are much faster then the standard
+browser tests.
 
 #### logLevel
 Type: `String`<br>

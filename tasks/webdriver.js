@@ -53,11 +53,13 @@ module.exports = function(grunt) {
         /**
          * set capabilities for webdriverjs
          */
-        if(options.binary === undefined) {
+        if(options.browser === 'phantomjs') {
+            capabilities.browserName = 'phantomjs';
+        } else if(options.binary === undefined) {
             capabilities = options.capabilities[options.browser];
         } else {
             var seperator = options.browser === 'firefox' ? '_' : '.';
-            capabilities['browserName'] = options.browser,
+            capabilities.browserName = options.browser,
             capabilities[options.browser+seperator+'binary'] = options.binary;
         }
 
