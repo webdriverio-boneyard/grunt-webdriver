@@ -81,7 +81,8 @@ grunt.initConfig({
 ```
 
 The corresponding *Hello World* test script, using webdriverjs API to search the
-grunt-webdriver repository on github.
+grunt-webdriver repository on github. See more functions and test examples
+in the [webdriverjs](https://github.com/Camme/webdriverjs) repository on GitHub.
 
 ```js
 'use strict';
@@ -91,7 +92,7 @@ var driver;
 exports.name = "Hello World Test";
 exports.tests = [{
     
-    name: "first hello world test",
+    name: "search plugin on github",
     func: function(done) {
 
         exports.driver
@@ -109,3 +110,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 * 2013-03-13   v0.1.1   first working version, without special features
+* 2013-03-14   v0.1.2   bugfixing, enhanced task option, improved test case
