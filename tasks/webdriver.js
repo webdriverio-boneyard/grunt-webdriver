@@ -25,19 +25,19 @@ module.exports = function(grunt) {
                 capabilities: {
                     chrome: {
                         'browserName': 'chrome',
-                        'chrome.binary': '/Applications/Browser/Google Chrome.app/Contents/MacOS/Google Chrome'
+                        'chrome.binary': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
                     },
                     firefox: {
                         'browserName': 'firefox',
-                        'firefox_binary': '/Applications/Browser/Firefox.app/Contents/MacOS/firefox'
+                        'firefox_binary': '/Applications/Firefox.app/Contents/MacOS/firefox'
                     },
                     opera: {
                         'browserName': 'opera',
-                        'opera.binary': '/Applications/Browser/Opera.app/Contents/MacOS/Opera'
+                        'opera.binary': '/Applications/Opera.app/Contents/MacOS/Opera'
                     },
                     safari: {
                         'browserName': 'safari',
-                        'safari.binary': '/Applications/Browser/Safari.app/Contents/MacOS/Safari'
+                        'safari.binary': '/Applications/Safari.app/Contents/MacOS/Safari'
                     }
                 }
             }),
