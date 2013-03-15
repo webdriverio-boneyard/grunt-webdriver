@@ -121,3 +121,4 @@ Please fork, add specs, and send pull requests! In lieu of a formal styleguide, 
 ## Release History
 * 2013-03-13   v0.1.1   first working version, without special features
 * 2013-03-14   v0.1.2   bugfixing, enhanced task option, improved test case
+* 2013-03-15   v0.1.3   added support for phantomjs, implemented reporter option
