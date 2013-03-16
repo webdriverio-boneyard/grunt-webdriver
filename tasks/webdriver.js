@@ -11,7 +11,8 @@
 var buster        = require('buster'),
     webdriverjs   = require('webdriverjs'),
     startSelenium = require('../lib/startSelenium'),
-    inArray       = require('../lib/inArray');
+    inArray       = require('../lib/inArray'),
+    util          = require('util');
 
 module.exports = function(grunt) {
 
@@ -43,7 +44,17 @@ module.exports = function(grunt) {
                     }
                 }
             }),
-            capabilities = [];
+            capabilities = [],
+            output = '';
+
+        /**
+         * override util module if output file is given
+         */
+        if(options.output !== undefined) {
+            util.print = util.log = util.puts = util.debug = util.error = function(log) {
+                output += log;
+            };
+        }
 
         /**
          * display a warning and abort task immediately if test URL is not defined
@@ -121,6 +132,11 @@ module.exports = function(grunt) {
 
             reporter.listen(runner);
             runner.runSuite(contexts).then(function(res) {
+                
+                if(options.output !== undefined) {
+                    grunt.file.write(options.output, output); 
+                }
+
                 done();
             });
 
