@@ -129,5 +129,5 @@ Please fork, add specs, and send pull requests! In lieu of a formal styleguide, 
 * 2013-03-13   v0.1.1   first working version, without special features
 * 2013-03-14   v0.1.2   bugfixing, enhanced task option, improved test case
 * 2013-03-15   v0.1.3   added support for phantomjs, implemented reporter option
-* 2013-03-16   v0.1.3   save result of busterjs reporters to a file, use travis for CI testing
+* 2013-03-16   v0.1.4   save result of busterjs reporters to a file, use travis for CI testing
 
