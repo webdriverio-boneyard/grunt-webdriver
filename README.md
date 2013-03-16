@@ -60,6 +60,11 @@ Options: *dots* | *specification* | *quiet* | *xml* | *tap* | *html* | *teamcity
 Reporters visualize progress and results of test runs. Some are desired for continious integration
 tests. Find more information in the BusterJS [documentation](http://docs.busterjs.org/en/latest/modules/buster-test/reporters/#buster-test-reporters).
 
+#### output
+Type: `String`<br>
+
+Define a path to save the test output from the buster reporters.
+
 #### logLevel
 Type: `String`<br>
 Default: *silent*<br>
@@ -97,18 +102,20 @@ in the [webdriverjs](https://github.com/Camme/webdriverjs) repository on GitHub.
 ```js
 'use strict';
 
-var driver;
-
-exports.name = "Hello World Test";
+exports.name = "Simple Github Test";
 exports.tests = [{
     
-    name: "search plugin on github",
+    name: "checks if title contains the search query",
     func: function(done) {
 
+        var query = 'grunt-webdriver';
         exports.driver
             .click('.search a')
-            .setValue('.search-page-input','grunt-webdriver')
+            .setValue('.search-page-input',query)
             .click('#search_form .button')
+            .getTitle(function(title) {
+                buster.assertions.assert(title.indexOf(query) !== -1);
+            })
             .end(done);
         
     }}

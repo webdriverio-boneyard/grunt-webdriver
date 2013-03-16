@@ -8,8 +8,6 @@
 
 'use strict';
 
-var driver;
-
 exports.name = "Simple Github Test";
 exports.tests = [{
     

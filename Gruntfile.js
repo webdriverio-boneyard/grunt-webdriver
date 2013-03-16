@@ -15,6 +15,9 @@ module.exports = function(grunt) {
         
         // Configuration to be run (and then tested).
         webdriver: {
+            options: {
+                browser: 'phantomjs'
+            },
             dev: {
                 url: 'http://github.com',
                 tests: './test/*.js'
