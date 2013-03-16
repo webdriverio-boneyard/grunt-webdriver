@@ -1,4 +1,4 @@
-# grunt-webdriver
+# grunt-webdriver [![Build Status](https://travis-ci.org/christian-bromann/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver)
 
 > grunt-webdriver is a grunt plugin to run selenium tests with BusterJS and webdriverjs
 
