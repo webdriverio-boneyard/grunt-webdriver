@@ -28,5 +28,7 @@ module.exports = function(grunt) {
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'webdriver']);
+    // default task for testing
+    grunt.registerTask('test', ['webdriver']);
 
 };
