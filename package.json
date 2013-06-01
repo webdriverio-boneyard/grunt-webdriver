@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "buster": "~0.6.6",
-    "webdriverjs": "~0.x"
+    "webdriverjs": "~0.6.9"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.1",
