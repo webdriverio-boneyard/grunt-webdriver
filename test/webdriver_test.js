@@ -1,3 +1,5 @@
+/*global buster*/
+
 /*
  * grunt-webdriver
  * https://github.com/christianbromann/grunt-webdriver
@@ -9,6 +11,7 @@
 'use strict';
 
 exports.name = "Simple Github Test";
+
 exports.tests = [{
     
     name: "checks if title contains the search query",
@@ -16,9 +19,9 @@ exports.tests = [{
 
         var query = 'grunt-webdriver';
         exports.driver
-            .click('.search a')
-            .setValue('.search-page-input',query)
-            .click('#search_form .button')
+            .click('#js-command-bar-field')
+            .setValue('#js-command-bar-field',query)
+            .submitForm('.command-bar-form')
             .getTitle(function(title) {
                 buster.assertions.assert(title.indexOf(query) !== -1);
             })
