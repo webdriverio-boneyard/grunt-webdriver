@@ -119,11 +119,16 @@ module.exports = function(grunt) {
             // get tests context
             var contexts = [];
             testCases.forEach(function(testCase) {
-                var context = require(testCase);
+                var context = require(testCase),
+                    setUp   = context.setUp;
 
                 context.setUp = function() {
                     this.timeout = 9999999;
                     driver.init().url(that.data.url);
+
+                    if(setUp && typeof setUp === 'function') {
+                        setUp();
+                    }
                 };
 
                 context.driver = driver;

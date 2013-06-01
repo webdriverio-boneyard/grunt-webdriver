@@ -96,13 +96,18 @@ grunt.initConfig({
 ```
 
 The corresponding *Hello World* test script, using webdriverjs API to search the
-grunt-webdriver repository on github. See more functions and test examples
-in the [webdriverjs](https://github.com/Camme/webdriverjs) repository on GitHub.
+grunt-webdriver repository on GitHub. See more functions and test examples
+in the [webdriverjs](https://github.com/Camme/webdriverjs) repository.
 
 ```js
 'use strict';
 
 exports.name = "Simple Github Test";
+
+exports.setUp = function(){
+    // ...  
+};
+
 exports.tests = [{
     
     name: "checks if title contains the search query",
@@ -120,6 +125,10 @@ exports.tests = [{
         
     }}
 ];
+
+exports.tearDown = function() {
+    // ...
+}
 ```
 
 ## Contributing
