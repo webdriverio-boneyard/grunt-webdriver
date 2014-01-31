@@ -21,7 +21,7 @@ env:
     - _BROWSER: "firefox"
       _PLATFORM: "Linux"
       _VERSION: "25"
-    - _BROWSER: "internet explorer"
+    - _BROWSER: "internet_explorer"
       _PLATFORM: "Windows_8"
       _VERSION: "10"
     - _BROWSER: "opera"

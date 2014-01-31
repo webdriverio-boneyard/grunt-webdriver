@@ -9,6 +9,7 @@
 'use strict';
 
 var Mocha         = require('mocha'),
+    SauceLabs     = require('saucelabs'),
     selenium      = require('selenium-standalone'),
     webdriverjs   = require('webdriverjs'),
     util          = require('util'),
@@ -58,7 +59,23 @@ module.exports = function(grunt) {
                     mocha.run(function(failures) {
 
                         GLOBAL.browser.end(function() {
-                            process.exit(failures);
+
+                            if(options.user && options.key) {
+                                var sauceAccount = new SauceLabs({
+                                    username: options.user,
+                                    password: options.key
+                                });
+
+                                sauceAccount.updateJob(GLOBAL.browser.requestHandler.sessionID, {
+                                    passed: failures === 0,
+                                    public: true
+                                },function(err,res){
+                                    process.exit(failures);
+                                });
+                            } else {
+                                process.exit(failures);
+                            }
+
                         });
 
                     });

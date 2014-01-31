@@ -15,18 +15,21 @@ module.exports = function(grunt) {
         
         // Configuration to be run (and then tested).
         webdriver: {
+            options: {
+                reporter: 'dots',
+                user: process.env.SAUCE_USERNAME,
+                key: process.env.SAUCE_ACCESS_KEY
+            },
             ci: {
                 tests: './test/*.js',
                 options: {
                     port: 4445,
-                    user: process.env.SAUCE_USERNAME,
-                    key: process.env.SAUCE_ACCESS_KEY,
                     desiredCapabilities: {
                         browserName: (process.env._BROWSER || '').replace(/_/g,' '),
                         platform: (process.env._PLATFORM || '').replace(/_/g,' '),
                         version: process.env._VERSION,
                         app: process.env._APP || '',
-                        device: process.env._DEVICE || '',
+                        device: (process.env._DEVICE || '').replace(/_/g,' '),
                         'device-type': process.env._TYPE || '',
                         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         'idle-timeout': 900,
