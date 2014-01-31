@@ -24,6 +24,11 @@ module.exports = function(grunt) {
             base = process.cwd(),
             options = this.options({
                 reporter: 'spec',
+                ui: 'bdd',
+                slow: 75,
+                bail: false,
+                grep: null,
+                timeout: 1000000
             }),
             capabilities = merge(options,this.data.options),
             output = '';
@@ -36,10 +41,7 @@ module.exports = function(grunt) {
         /**
          * initialize Mocha
          */
-        var mocha = new Mocha({
-            timeout: 1000000,
-            reporter: options.reporter
-        });
+        var mocha = new Mocha(options);
 
         grunt.file.expand(grunt.file.expand(base + '/' + this.data.tests)).forEach(function(file) {
             mocha.addFile(file);
