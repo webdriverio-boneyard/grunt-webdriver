@@ -1,4 +1,4 @@
-/*global buster*/
+/*global describe,it,browser*/
 
 /*
  * grunt-webdriver
@@ -10,22 +10,22 @@
 
 'use strict';
 
-exports.name = "Simple Github Test";
+var assert = require('assert');
 
-exports.tests = [{
-    
-    name: "checks if title contains the search query",
-    func: function(done) {
+describe('grunt-webdriverjs test', function () {
 
-        var query = 'grunt-webdriver';
-        exports.driver
+    it('checks if title contains the search query', function(done) {
+
+        browser
+            .url('http://github.com')
             .click('#js-command-bar-field')
-            .setValue('#js-command-bar-field',query)
+            .setValue('#js-command-bar-field','grunt-webdriver')
             .submitForm('.command-bar-form')
-            .getTitle(function(title) {
-                buster.assertions.assert(title.indexOf(query) !== -1);
+            .getTitle(function(err,title) {
+                assert(title.indexOf('grunt-webdriver') !== -1);
             })
             .end(done);
-        
-    }}
-];
+
+    });
+
+});

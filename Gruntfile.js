@@ -16,10 +16,13 @@ module.exports = function(grunt) {
         // Configuration to be run (and then tested).
         webdriver: {
             options: {
-                browser: 'phantomjs'
+                reporter: 'nyan',
+                output: './nyan.txt',
+                desiredCapabilities: {
+                    browserName: 'phantomjs'
+                }
             },
             dev: {
-                url: 'http://github.com',
                 tests: './test/*.js'
             }
         },

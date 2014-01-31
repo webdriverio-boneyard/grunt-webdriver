@@ -8,11 +8,11 @@
 
 'use strict';
 
-var buster        = require('buster'),
+var Mocha         = require('mocha'),
+    selenium      = require('selenium-standalone'),
     webdriverjs   = require('webdriverjs'),
-    startSelenium = require('../lib/startSelenium'),
-    inArray       = require('../lib/inArray'),
-    util          = require('util');
+    util          = require('util'),
+    merge         = require('lodash.merge');
 
 module.exports = function(grunt) {
 
@@ -22,130 +22,52 @@ module.exports = function(grunt) {
             done = this.async(),
             base = process.cwd(),
             options = this.options({
-                browser: 'chrome',
-                logLevel: 'silent',
-                reporter: 'dots',
-                capabilities: {
-                    chrome: {
-                        'browserName': 'chrome',
-                        'chrome.binary': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-                    },
-                    firefox: {
-                        'browserName': 'firefox',
-                        'firefox_binary': '/Applications/Firefox.app/Contents/MacOS/firefox'
-                    },
-                    opera: {
-                        'browserName': 'opera',
-                        'opera.binary': '/Applications/Opera.app/Contents/MacOS/Opera'
-                    },
-                    safari: {
-                        'browserName': 'safari',
-                        'safari.binary': '/Applications/Safari.app/Contents/MacOS/Safari'
-                    }
-                }
+                reporter: 'spec',
             }),
-            capabilities = [],
+            capabilities = merge(options,this.data.options),
             output = '';
 
         /**
-         * override util module if output file is given
+         * initialize WebdriverJS
          */
-        if(options.output !== undefined) {
-            util.print = util.log = util.puts = util.debug = util.error = function(log) {
-                output += log;
-            };
-        }
+        GLOBAL.browser = webdriverjs.remote(capabilities);
 
         /**
-         * display a warning and abort task immediately if test URL is not defined
+         * initialize Mocha
          */
-        if(this.data.url === undefined) {
-            grunt.fail.fatal('the test url is not defined');
-        }
-        
-        /**
-         * set capabilities for webdriverjs
-         */
-        if(options.browser === 'phantomjs') {
-            capabilities.browserName = 'phantomjs';
-        } else if(options.binary === undefined) {
-            capabilities = options.capabilities[options.browser];
-        } else {
-            var seperator = options.browser === 'firefox' ? '_' : '.';
-            capabilities.browserName = options.browser,
-            capabilities[options.browser+seperator+'binary'] = options.binary;
-        }
+        var mocha = new Mocha({
+            timeout: 1000000,
+            reporter: options.reporter
+        });
 
-        /**
-         * initialize webdriver
-         */
-        var driver = webdriverjs.remote({desiredCapabilities:capabilities,logLevel: options.logLevel});
-
-        /**
-         * specify special driver commands
-         * @param  {Function} testSuite  command function
-         * @return {Object}              driver object
-         */
-        driver.initTest = function(testSuite) {
-            for(var test in testSuite) {
-                this.addCommand(test, testSuite[test]);
-            }
-            return this;
-        };
+        grunt.file.expand(grunt.file.expand(base + '/' + this.data.tests)).forEach(function(file) {
+            mocha.addFile(file);
+        });
 
         /**
          * starts selenium standalone server if its not running
-         * @param  {Function}        callback function on success
-         * @param  {Function} done   grunt done function for async callbacks
-         * @param  {Object}   grunt  grunt object
-         * @return null
          */
-        startSelenium(function() {
+        var server = selenium.start({ stdio: 'pipe' });
+        server.stdout.on('data', function(output) {
 
-            /**
-             * require given test files and run buster
-             */
-            var runner    = buster.testRunner.create(),
-                testCases = grunt.file.expand(grunt.file.expand(base + '/' + that.data.tests)),
-                availableReporters = ['dots','specification','quiet','xml','tap','html','teamcity'],
-                reporter;
+            var line = output.toString().trim();
+            if (line.indexOf('Started HttpContext[/wd,/wd]') > -1) {
 
-            if(!inArray(availableReporters,options.reporter)) {
-                grunt.fail.fatal('couldn\'t find reporter "' + options.reporter+'". Please choose one of the following reporters: ' + availableReporters.join(','));
+                GLOBAL.browser.init().call(function() {
+
+                    mocha.run(function(failures) {
+
+                        GLOBAL.browser.end(function() {
+                            process.exit(failures);
+                        });
+
+                    });
+
+                });
+
             }
 
-            reporter = buster.reporters[options.reporter].create({ color: true });
-
-            // get tests context
-            var contexts = [];
-            testCases.forEach(function(testCase) {
-                var context = require(testCase),
-                    setUp   = context.setUp;
-
-                context.setUp = function() {
-                    this.timeout = 9999999;
-                    driver.init().url(that.data.url);
-
-                    if(setUp && typeof setUp === 'function') {
-                        setUp();
-                    }
-                };
-
-                context.driver = driver;
-                contexts.push(context);
-            });
-
-            reporter.listen(runner);
-            runner.runSuite(contexts).then(function(res) {
-                
-                if(options.output !== undefined) {
-                    grunt.file.write(options.output, output); 
-                }
-
-                done();
-            });
-
-        },done,grunt);
+        });
 
     });
 
