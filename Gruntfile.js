@@ -16,7 +16,6 @@ module.exports = function(grunt) {
         // Configuration to be run (and then tested).
         webdriver: {
             options: {
-                reporter: 'dots',
                 user: process.env.SAUCE_USERNAME,
                 key: process.env.SAUCE_ACCESS_KEY
             },
