@@ -1,13 +1,3 @@
-/*
- * grunt-webdriver
- * https://github.com/christianbromann/grunt-webdriver
- *
- * Copyright (c) 2013 Christian Bromann
- * Licensed under the MIT license.
- */
-
-'use strict';
-
 var Mocha         = require('mocha'),
     SauceLabs     = require('saucelabs'),
     selenium      = require('selenium-standalone'),
@@ -17,7 +7,7 @@ var Mocha         = require('mocha'),
 
 module.exports = function(grunt) {
 
-    grunt.registerMultiTask('webdriver', 'Your task description goes here.', function() {
+    grunt.registerMultiTask('webdriver', 'run WebdriverJS tests with Mocha', function() {
         
         var that = this,
             done = this.async(),
@@ -28,7 +18,8 @@ module.exports = function(grunt) {
                 slow: 75,
                 bail: false,
                 grep: null,
-                timeout: 1000000
+                timeout: 1000000,
+                updateSauceJob: false
             }),
             capabilities = merge(options,this.data.options),
             output = '';
@@ -62,7 +53,7 @@ module.exports = function(grunt) {
 
                         GLOBAL.browser.end(function() {
 
-                            if(options.user && options.key) {
+                            if(options.user && options.key && options.updateSauceJob) {
                                 var sauceAccount = new SauceLabs({
                                     username: options.user,
                                     password: options.key

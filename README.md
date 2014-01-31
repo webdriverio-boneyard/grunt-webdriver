@@ -1,6 +1,8 @@
-# grunt-webdriver [![Build Status](https://travis-ci.org/christian-bromann/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver)
+# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverjs/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver)[![Selenium Test Status](https://saucelabs.com/buildstatus/grunt-webdriver)](https://saucelabs.com/u/grunt-webdriver)
 
-> grunt-webdriver is a grunt plugin to run selenium tests with BusterJS and webdriverjs
+> grunt-webdriver is a grunt plugin to run selenium tests with Mocha and [WebdriverJS](http://webdriver.io)
+
+[![Selenium Test Status](https://saucelabs.com/browser-matrix/grunt-webdriver.svg)](https://saucelabs.com/u/grunt-webdriver)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
@@ -33,50 +35,78 @@ _Run this task with the `grunt webdriver` command._
 ```js
 grunt.initConfig({
   webdriver: {
-    dev: {
-      url: '<start-url>',
-      tests: ['<path-to-your-testfiles>']
+    options: {
+        desiredCapabilities: {
+            browserName: 'chrome'
+        }
+    },
+    login: {
+        tests: ['test/spec/login/*.js'],
+        options: {
+            // overwrite default settings
+            desiredCapabilities: {
+                browserName: 'firefox'
+            }
+        }
+    },
+    form: {
+        tests: ['test/spec/form/*.js']
     }
+    // ...
   },
 })
 ```
 
 ### Options
 
-#### browser
-Type: `String`<br>
-Default: *chrome*<br>
-Options: *chrome* | *firefox* | *opera* | *safari* | *phantomjs*
+All options get passed into the WebdriverJS `remote` function. So this is the place where
+you can define your driver instance. You'll find more informations about all WebdriverJS
+options [here](https://github.com/camme/webdriverjs/#options). You can overwrite these
+options in any target. Also you have to define all Mocha options here. The following
+are supported:
 
-Defines the browser. If [PhantomJS](http://phantomjs.org/index.html) (`>v1.8`) is installed, you
-can run your Selenium tests in a headless browser. These tests are much faster as standard
-browser tests.
+#### bail
+Type: `Boolean`<br>
+Default: *false*<br>
+
+If true you are only interested in the first execption
+
+#### ui
+Type: `String`<br>
+Default: *bdd*<br>
+Options: *bdd* | *tdd* | *qunit* | *exports*
+
+Specify the interface to use.
 
 #### reporter
 Type: `String`<br>
-Default: *dots*<br>
-Options: *dots* | *specification* | *quiet* | *xml* | *tap* | *html* | *teamcity*
+Default: *spec*<br>
+Options: *Base* | *Dot* | *Doc* | *TAP* | *JSON* | *HTML* | *List* | *Min* | *Spec* | *Nyan* | *XUnit* | *Markdown* | *Progress* | *Landing* | *JSONCov* | *HTMLCov* | *JSONStream*
 
-Reporters visualize progress and results of test runs. Some are desired for continious integration
-tests. Find more information in the BusterJS [documentation](http://docs.busterjs.org/en/latest/modules/buster-test/reporters/#buster-test-reporters).
+Allows you to specify the reporter that will be used.
 
-#### output
-Type: `String`<br>
+#### slow
+Type: `Number`<br>
+Default: *75*
 
-Define a path to save the test output from the buster reporters.
+Specify the "slow" test threshold, defaulting to 75ms. Mocha uses this to highlight test-cases that are taking too long.
 
-#### logLevel
-Type: `String`<br>
-Default: *silent*<br>
-Options *silent* | *verbose*
+#### timeout
+Type: `Number`<br>
+Default: *1000000*
 
-Set log level of webdriverjs API
+Specifies the test-case timeout.
 
-#### binary
-Type: `String`<br>
-Default: standard MacOSX browser path (e.g. Chrome: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome)
+#### grep
+Type: `String`
 
-Specify the binary path for the indicated browser __(important for windows user)__
+When specified will trigger mocha to only run tests matching the given pattern which is internally compiled to a `RegExp`.
+
+#### updateSauceJob
+Type: `Boolean`<br>
+Default: *false*
+
+If true it will automatically update the current job and does publish it.
 
 ### Usage Examples
 
@@ -87,48 +117,38 @@ test script.
 ```js
 grunt.initConfig({
   webdriver: {
-    dev: {
-      url: 'http://github.com',
+    githubTest: {
       tests: './test/github-test.js'
     }
   },
 })
 ```
 
-The corresponding *Hello World* test script, using webdriverjs API to search the
-grunt-webdriver repository on GitHub. See more functions and test examples
-in the [webdriverjs](https://github.com/Camme/webdriverjs) repository.
+The corresponding *Hello World* test script is using WebdriverJS API to search the
+grunt-webdriver repository on GitHub. The global `browser` variable lets you access
+your client instance. See more functions and test examples in the [WebdriverJS](https://github.com/Camme/webdriverjs) repository.
 
 ```js
 'use strict';
 
-exports.name = "Simple Github Test";
+var assert = require('assert');
 
-exports.setUp = function(){
-    // ...  
-};
+describe('grunt-webdriverjs test', function () {
 
-exports.tests = [{
-    
-    name: "checks if title contains the search query",
-    func: function(done) {
+    it('checks if title contains the search query', function(done) {
 
-        var query = 'grunt-webdriver';
-        exports.driver
-            .click('.search a')
-            .setValue('.search-page-input',query)
-            .click('#search_form .button')
-            .getTitle(function(title) {
-                buster.assertions.assert(title.indexOf(query) !== -1);
+        browser
+            .url('http://github.com')
+            .setValue('#js-command-bar-field','grunt-webdriver')
+            .submitForm('.command-bar-form')
+            .getTitle(function(err,title) {
+                assert(title.indexOf('grunt-webdriver') !== -1);
             })
             .end(done);
-        
-    }}
-];
 
-exports.tearDown = function() {
-    // ...
-}
+    });
+
+});
 ```
 
 ## Contributing
@@ -141,4 +161,5 @@ Please fork, add specs, and send pull requests! In lieu of a formal styleguide, 
 * 2013-03-16   v0.1.4   save result of busterjs reporters to a file, use travis for CI testing
 * 2013-03-16   v0.1.5   added support for setUp function
 * 2013-03-16   v0.1.6   fixed webdriverjs version
+* 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
 

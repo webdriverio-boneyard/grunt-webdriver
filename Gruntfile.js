@@ -1,13 +1,3 @@
-/*
- * grunt-webdriver
- * https://github.com/christianbromann/grunt-webdriver
- *
- * Copyright (c) 2013 Christian Bromann
- * Licensed under the MIT license.
- */
-
-'use strict';
-
 module.exports = function(grunt) {
 
     // Project configuration.
@@ -22,6 +12,7 @@ module.exports = function(grunt) {
             ci: {
                 tests: './test/*.js',
                 options: {
+                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: (process.env._BROWSER || '').replace(/_/g,' '),
