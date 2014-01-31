@@ -1,8 +1,8 @@
 {
   "name": "grunt-webdriver",
-  "description": "grunt-webdriver is a grunt plugin to run selenium tests with BusterJS and webdriverjs",
-  "version": "0.1.6",
-  "homepage": "https://github.com/christian-bromann/grunt-webdriver",
+  "description": "grunt-webdriver is a grunt plugin to run selenium tests with Mocha and WebdriverJS",
+  "version": "0.2.0",
+  "homepage": "https://github.com/webdriverjs/grunt-webdriver",
   "author": {
     "name": "Christian Bromann",
     "email": "contact@christian-bromann.com",
@@ -10,20 +10,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/christian-bromann/grunt-webdriver.git"
+    "url": "git://github.com/webdriverjs/grunt-webdriver.git"
   },
   "bugs": {
-    "url": "https://github.com/christian-bromann/grunt-webdriver/issues"
+    "url": "https://github.com/webdriverjs/grunt-webdriver/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/christian-bromann/grunt-webdriver/blob/master/LICENSE-MIT"
+      "url": "https://github.com/webdriverjs/grunt-webdriver/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "grunt testTravis"
@@ -43,6 +43,6 @@
     "grunt": "~0.4.2"
   },
   "keywords": [
-    "gruntplugin"
+    "grunt","webdriverjs","webdriver","selenium","mocha","bdd","tdd","saucelabs","gruntplugin"
   ]
 }

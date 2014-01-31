@@ -1,5 +1,3 @@
-/*global describe,it,browser*/
-
 var assert = require('assert');
 
 describe('grunt-webdriverjs test', function () {

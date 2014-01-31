@@ -1,4 +1,4 @@
-# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverjs/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver)[![Selenium Test Status](https://saucelabs.com/buildstatus/grunt-webdriver)](https://saucelabs.com/u/grunt-webdriver)
+# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverjs/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver) [![Selenium Test Status](https://saucelabs.com/buildstatus/grunt-webdriver)](https://saucelabs.com/u/grunt-webdriver) [![Dependency Status](https://gemnasium.com/webdriverjs/grunt-webdriver.png)](https://gemnasium.com/webdriverjs/grunt-webdriver)
 
 > grunt-webdriver is a grunt plugin to run selenium tests with Mocha and [WebdriverJS](http://webdriver.io)
 
@@ -152,7 +152,8 @@ describe('grunt-webdriverjs test', function () {
 ```
 
 ## Contributing
-Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to maintain the existing coding style.
+Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to
+maintain the existing coding style.
 
 ## Release History
 * 2013-03-13   v0.1.1   first working version, without special features
@@ -161,5 +162,5 @@ Please fork, add specs, and send pull requests! In lieu of a formal styleguide, 
 * 2013-03-16   v0.1.4   save result of busterjs reporters to a file, use travis for CI testing
 * 2013-03-16   v0.1.5   added support for setUp function
 * 2013-03-16   v0.1.6   fixed webdriverjs version
-* 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
+* 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
 
