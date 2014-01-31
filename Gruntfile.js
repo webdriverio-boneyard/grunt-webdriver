@@ -15,15 +15,32 @@ module.exports = function(grunt) {
         
         // Configuration to be run (and then tested).
         webdriver: {
-            options: {
-                reporter: 'nyan',
-                output: './nyan.txt',
-                desiredCapabilities: {
-                    browserName: 'phantomjs'
+            ci: {
+                tests: './test/*.js',
+                options: {
+                    port: 4445,
+                    user: process.env.SAUCE_USERNAME,
+                    key: process.env.SAUCE_ACCESS_KEY,
+                    desiredCapabilities: {
+                        browserName: (process.env._BROWSER || '').replace(/_/g,' '),
+                        platform: (process.env._PLATFORM || '').replace(/_/g,' '),
+                        version: process.env._VERSION,
+                        app: process.env._APP || '',
+                        device: process.env._DEVICE || '',
+                        'device-type': process.env._TYPE || '',
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        'idle-timeout': 900,
+                        tags: [process.env._BROWSER,process.env._PLATFORM,process.env._VERSION],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER,
+                    }
                 }
             },
-            dev: {
-                tests: './test/*.js'
+            local: {
+                tests: './test/*.js',
+                options: {
+                    desiredCapabilities: { browserName: 'phantomjs' }
+                }
             }
         },
 
@@ -35,6 +52,7 @@ module.exports = function(grunt) {
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'webdriver']);
     // default task for testing
-    grunt.registerTask('test', ['webdriver']);
+    grunt.registerTask('test', ['webdriver:local']);
+    grunt.registerTask('testTravis', ['webdriver:ci']);
 
 };
