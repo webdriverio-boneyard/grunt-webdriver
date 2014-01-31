@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                         'device-type': process.env._TYPE || '',
                         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         'idle-timeout': 900,
-                        tags: [process.env._BROWSER,process.env._PLATFORM,process.env._VERSION],
+                        tags: [process.env._BROWSER || process.env._APP,process.env._PLATFORM,process.env._VERSION],
                         name: 'grunt-webdriver test',
                         build: process.env.TRAVIS_BUILD_NUMBER,
                     }
