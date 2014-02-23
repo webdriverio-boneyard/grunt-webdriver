@@ -8,7 +8,7 @@ var Mocha         = require('mocha'),
 module.exports = function(grunt) {
 
     grunt.registerMultiTask('webdriver', 'run WebdriverJS tests with Mocha', function() {
-        
+
         var that = this,
             done = this.async(),
             base = process.cwd(),
@@ -63,10 +63,10 @@ module.exports = function(grunt) {
                                     passed: failures === 0,
                                     public: true
                                 },function(err,res){
-                                    process.exit(failures);
+                                    done(failures);
                                 });
                             } else {
-                                process.exit(failures);
+                                done(failures);
                             }
 
                         });
