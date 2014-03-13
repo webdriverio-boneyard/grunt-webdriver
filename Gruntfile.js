@@ -12,6 +12,8 @@ module.exports = function(grunt) {
             ci: {
                 tests: './test/*.js',
                 options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
                     updateSauceJob: true,
                     desiredCapabilities: {
                         browserName: (process.env._BROWSER || '').replace(/_/g,' '),
