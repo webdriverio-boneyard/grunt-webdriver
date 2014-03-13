@@ -21,11 +21,30 @@ module.exports = function(grunt) {
                         app: process.env._APP || '',
                         device: (process.env._DEVICE || '').replace(/_/g,' '),
                         'device-type': process.env._TYPE || '',
+                        'idle-timeout': 900,
+                        tags: [process.env._BROWSER || process.env._APP,process.env._PLATFORM,process.env._VERSION],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
+                    }
+                }
+            },
+            ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        browserName: (process.env._BROWSER || '').replace(/_/g,' '),
+                        platform: (process.env._PLATFORM || '').replace(/_/g,' '),
+                        version: process.env._VERSION,
+                        app: process.env._APP || '',
+                        device: (process.env._DEVICE || '').replace(/_/g,' '),
+                        'device-type': process.env._TYPE || '',
                         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         'idle-timeout': 900,
                         tags: [process.env._BROWSER || process.env._APP,process.env._PLATFORM,process.env._VERSION],
                         name: 'grunt-webdriver test',
-                        build: process.env.TRAVIS_BUILD_NUMBER,
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -46,6 +65,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint', 'webdriver']);
     // default task for testing
     grunt.registerTask('test', ['webdriver:local']);
-    grunt.registerTask('testTravis', ['webdriver:ci']);
+    grunt.registerTask('testTravis', ['webdriver:ci','webdriver:ciTunnel']);
 
 };

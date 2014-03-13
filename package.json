@@ -29,9 +29,11 @@
     "test": "grunt testTravis"
   },
   "dependencies": {
+    "async": "~0.2.10",
     "mocha": "~1.17.1",
     "webdriverjs": "~1.3.x",
     "saucelabs": "~0.1.1",
+    "sauce-tunnel": "~2.0.1",
     "selenium-standalone": "~2.39.0-2.8.0-1",
     "lodash.merge": "~2.4.1"
   },

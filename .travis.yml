@@ -6,9 +6,6 @@ node_js:
 before_script:
   - npm install -g grunt-cli
 
-addons:
-  sauce_connect: true
-
 env:
   global:
     - secure: QCidJxcH1yyMgW780fHn9+vD1ybqH/hr6Ej+c3RWmQyzNmtsLTpOcM4iVXf27imLC7spXJ1+9gj7mmECNrHCLiyenvb/ml/hesfNbl0jpHt7EEjmkD/XjOp+47HMk9A3/lUeR4sxIedu1gmwfCdzE5YMJz8cAdUrwmTUd4tWAKw=

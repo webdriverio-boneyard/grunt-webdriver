@@ -1,8 +1,10 @@
 var Mocha         = require('mocha'),
     SauceLabs     = require('saucelabs'),
+    SauceTunnel   = require('sauce-tunnel'),
     selenium      = require('selenium-standalone'),
     webdriverjs   = require('webdriverjs'),
     util          = require('util'),
+    async         = require('async'),
     merge         = require('lodash.merge');
 
 module.exports = function(grunt) {
@@ -22,7 +24,10 @@ module.exports = function(grunt) {
                 updateSauceJob: false
             }),
             capabilities = merge(options,this.data.options),
-            output = '';
+            output = '',
+            tunnel = null
+            tunnelIdentifier = capabilities.desiredCapabilities['tunnel-identifier'] || null,
+            tunnelFlags = capabilities.desiredCapabilities['tunnel-flags'] || [];
 
         /**
          * initialize WebdriverJS
@@ -47,8 +52,7 @@ module.exports = function(grunt) {
         process.removeAllListeners('uncaughtException');
 
         var unmanageExceptions = function() {
-          uncaughtExceptionHandlers.forEach(
-            process.on.bind(process, 'uncaughtException'));
+            uncaughtExceptionHandlers.forEach(process.on.bind(process, 'uncaughtException'));
         };
 
         /**
@@ -56,51 +60,134 @@ module.exports = function(grunt) {
          */
         var server = selenium.start({ stdio: 'pipe' });
 
+        /**
+         * initialise tunnel
+         */
+        if(options.user && options.key && tunnelIdentifier) {
+            tunnel = new SauceTunnel(options.user , options.key, tunnelIdentifier, true, tunnelFlags);
+            tunnel.on('verbose:debug', grunt.log.debug);
+        }
+
         // Clear require cache to allow for multiple execution of same mocha commands
         Object.keys(require.cache).forEach(function (key) {
-          delete require.cache[key];
+            delete require.cache[key];
         });
 
-        server.stdout.on('data', function(output) {
+        /**
+         * helper function for asyncjs
+         */
+        var next = function() {
+            this.call(null, null, Array.prototype.slice.call(arguments)[0]);
+        }
 
-            var line = output.toString().trim();
-            if (line.indexOf('Started HttpContext[/wd,/wd]') > -1) {
+        async.waterfall([
+            /**
+             * start selenium server or sauce tunnel
+             */
+            function(callback) {
+                grunt.log.debug('start selenium server or sauce tunnel');
 
-                GLOBAL.browser.init().call(function() {
+                if(tunnel) {
+                    tunnel.start(next.bind(callback));
+                } else {
+                    server.stdout.on('data', next.bind(callback));
+                }
+            },
+            /**
+             * check if server is ready
+             */
+            function(output,callback) {
 
-                    mocha.run(function(failures) {
+                if(tunnel) {
 
-                      // Restore grunt exception handling
-                      unmanageExceptions();
+                    // output here means if tunnel was created successfully
+                    if(output === false) {
+                        grunt.fail.warn(new Error('Sauce-Tunnel couldn\'t created successfully'));
+                    }
 
-                      // Close Remote sessions if needed
-                      GLOBAL.browser.end(function() {
+                    grunt.log.debug('tunnel created successfully');
+                    callback(null);
 
-                          if(options.user && options.key && options.updateSauceJob) {
-                              var sauceAccount = new SauceLabs({
-                                  username: options.user,
-                                  password: options.key
-                              });
+                } else {
 
-                              sauceAccount.updateJob(GLOBAL.browser.requestHandler.sessionID, {
-                                  passed: failures === 0,
-                                  public: true
-                              },function(err,res){
-                                  done(failures === 0);
-                              });
-                          } else {
-                              done(failures === 0);
-                          }
+                    var line = output.toString().trim();
+                    grunt.log.debug(line);
+                    if (line.indexOf('Started HttpContext[/wd,/wd]') > -1) {
+                        callback(null);
+                    }
 
-                      });
+                }
+            },
+            /**
+             * init WebdriverJS instance
+             */
+            function(callback) {
+                grunt.log.debug('init WebdriverJS instance');
 
+                GLOBAL.browser.init().call(next.bind(callback));
+            },
+            /**
+             * run mocha tests
+             */
+            function(args,callback) {
+                grunt.log.debug('run mocha tests');
+
+                mocha.run(next.bind(callback));
+            },
+            /**
+             * handle test results
+             */
+            function(args,callback) {
+                grunt.log.debug('handle test results');
+
+                // Restore grunt exception handling
+                unmanageExceptions();
+
+                // Close Remote sessions if needed
+                GLOBAL.browser.end(next.bind(callback,args));
+            },
+            /**
+             * destroy sauce tunnel
+             */
+            function(args,callback) {
+                grunt.log.debug('destroy sauce tunnel');
+
+                if(tunnel) {
+                    tunnel.stop(next.bind(callback,args));
+                } else {
+                    callback(null,args);
+                }
+            },
+            /**
+             * update job on Sauce Labs
+             */
+            function(args,callback) {
+                grunt.log.debug('update job on Sauce Labs');
+
+                if(options.user && options.key && options.updateSauceJob) {
+                    var sauceAccount = new SauceLabs({
+                        username: options.user,
+                        password: options.key
                     });
 
-                });
+                    sauceAccount.updateJob(GLOBAL.browser.requestHandler.sessionID, {
+                        passed: args === 0,
+                        public: true
+                    }, next.bind(callback,args === 0));
+                } else {
+                    callback(null,args === 0);
+                }
+            },
+            /**
+             * finish grunt task
+             */
+            function(args,callback){
+                grunt.log.debug('finish grunt task',args);
 
+                done(args);
+                callback();
             }
-
-        });
+        ]);
 
     });
 
