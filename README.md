@@ -57,6 +57,37 @@ grunt.initConfig({
 })
 ```
 
+#### example using [Sauce Labs](https://saucelabs.com)
+
+If you specify a `tunnel-identifier` within your `desiredCapabilities` object, the task
+will automatically try to establish a tunnel connection via [Sauce Connect](https://saucelabs.com/docs/connect).
+
+```js
+grunt.initConfig({
+  webdriver: {
+    options: {
+        host: 'ondemand.saucelabs.com',
+        port: 80,
+        user: SAUCE_USERNAME,
+        key: SAUCE_ACCESS_KEY,
+        desiredCapabilities: {
+            browserName: 'chrome',
+            version: '27',
+            platform: 'XP',
+            'tunnel-identifier': 'my-tunnel'
+        }
+    },
+    login: {
+        tests: ['test/spec/login/*.js']
+    },
+    form: {
+        tests: ['test/spec/form/*.js']
+    }
+    // ...
+  },
+})
+```
+
 ### Options
 
 All options get passed into the WebdriverJS `remote` function. So this is the place where
@@ -163,4 +194,5 @@ maintain the existing coding style.
 * 2013-03-16   v0.1.5   added support for setUp function
 * 2013-03-16   v0.1.6   fixed webdriverjs version
 * 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
+* 2014-02-01   v0.3.0   support Sauce Connect
 

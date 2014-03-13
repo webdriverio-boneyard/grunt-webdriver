@@ -13,7 +13,6 @@ module.exports = function(grunt) {
                 tests: './test/*.js',
                 options: {
                     updateSauceJob: true,
-                    port: 4445,
                     desiredCapabilities: {
                         browserName: (process.env._BROWSER || '').replace(/_/g,' '),
                         platform: (process.env._PLATFORM || '').replace(/_/g,' '),
