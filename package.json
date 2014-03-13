@@ -26,7 +26,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt testTravis"
+    "test": "grunt testTravis --debug"
   },
   "dependencies": {
     "async": "~0.2.10",
