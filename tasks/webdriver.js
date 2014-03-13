@@ -39,9 +39,28 @@ module.exports = function(grunt) {
         });
 
         /**
+         * temporary remove the grunt exception handler , to make tasks continue (see also)
+          - https://github.com/pghalliday/grunt-mocha-test/blob/master/tasks/mocha.js#L57
+          - https://github.com/gregrperkins/grunt-mocha-hack
+         */
+        var uncaughtExceptionHandlers = process.listeners('uncaughtException');
+        process.removeAllListeners('uncaughtException');
+
+        var unmanageExceptions = function() {
+          uncaughtExceptionHandlers.forEach(
+            process.on.bind(process, 'uncaughtException'));
+        };
+
+        /**
          * starts selenium standalone server if its not running
          */
         var server = selenium.start({ stdio: 'pipe' });
+
+        // Clear require cache to allow for multiple execution of same mocha commands
+        Object.keys(require.cache).forEach(function (key) {
+          delete require.cache[key];
+        });
+
         server.stdout.on('data', function(output) {
 
             var line = output.toString().trim();
@@ -51,25 +70,29 @@ module.exports = function(grunt) {
 
                     mocha.run(function(failures) {
 
-                        GLOBAL.browser.end(function() {
+                      // Restore grunt exception handling
+                      unmanageExceptions();
 
-                            if(options.user && options.key && options.updateSauceJob) {
-                                var sauceAccount = new SauceLabs({
-                                    username: options.user,
-                                    password: options.key
-                                });
+                      // Close Remote sessions if needed
+                      GLOBAL.browser.end(function() {
 
-                                sauceAccount.updateJob(GLOBAL.browser.requestHandler.sessionID, {
-                                    passed: failures === 0,
-                                    public: true
-                                },function(err,res){
-                                    done(failures);
-                                });
-                            } else {
-                                done(failures);
-                            }
+                          if(options.user && options.key && options.updateSauceJob) {
+                              var sauceAccount = new SauceLabs({
+                                  username: options.user,
+                                  password: options.key
+                              });
 
-                        });
+                              sauceAccount.updateJob(GLOBAL.browser.requestHandler.sessionID, {
+                                  passed: failures === 0,
+                                  public: true
+                              },function(err,res){
+                                  done(failures === 0);
+                              });
+                          } else {
+                              done(failures === 0);
+                          }
+
+                      });
 
                     });
 
