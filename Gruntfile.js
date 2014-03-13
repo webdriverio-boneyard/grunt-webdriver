@@ -13,8 +13,9 @@ module.exports = function(grunt) {
             ci: {
                 tests: './test/*.js',
                 options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
                     updateSauceJob: true,
-                    port: 4445,
                     desiredCapabilities: {
                         browserName: (process.env._BROWSER || '').replace(/_/g,' '),
                         platform: (process.env._PLATFORM || '').replace(/_/g,' '),
@@ -52,12 +53,8 @@ module.exports = function(grunt) {
             local: {
                 tests: './test/*.js',
                 options: {
-                    port: 4445,
                     desiredCapabilities: { 
-                        browserName: 'chrome',
-                        platform: 'Windows 8',
-                        version: '31',
-                        'tunnel-identifier': 'test123'
+                        browserName: 'phantomjs'
                     }
                 }
             }
@@ -72,6 +69,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint', 'webdriver']);
     // default task for testing
     grunt.registerTask('test', ['webdriver:local']);
-    grunt.registerTask('testTravis', ['webdriver:ci']);
+    grunt.registerTask('testTravis', ['webdriver:ci','webdriver:ciTunnel']);
 
 };
