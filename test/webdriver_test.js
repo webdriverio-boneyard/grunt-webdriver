@@ -5,11 +5,9 @@ describe('grunt-webdriverjs test', function () {
     it('checks if title contains the search query', function(done) {
 
         browser
-            .url('http://github.com')
-            .setValue('#js-command-bar-field','grunt-webdriver')
-            .submitForm('.command-bar-form')
+            .url('http://webdriver.io')
             .getTitle(function(err,title) {
-                assert(title.indexOf('grunt-webdriver') !== -1);
+                assert.strictEqual(title,'WebdriverJS - Selenium 2.0 javascript bindings for nodejs');
             })
             .end(done);
 
