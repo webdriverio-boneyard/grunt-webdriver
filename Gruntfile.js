@@ -8,45 +8,205 @@ module.exports = function(grunt) {
             options: {
                 user: process.env.SAUCE_USERNAME,
                 key: process.env.SAUCE_ACCESS_KEY,
-                logLevel: 'verbose'
+                logLevel: 'verbose',
+                updateSauceJob: true,
+                desiredCapabilities: {
+                    name: 'grunt-webdriver test',
+                    build: process.env.TRAVIS_BUILD_NUMBER
+                }
             },
-            ci: {
+            chrome_ci: {
                 tests: './test/*.js',
                 options: {
                     host: 'ondemand.saucelabs.com',
                     port: 80,
-                    updateSauceJob: true,
                     desiredCapabilities: {
-                        browserName: (process.env._BROWSER || '').replace(/_/g,' '),
-                        platform: (process.env._PLATFORM || '').replace(/_/g,' '),
-                        version: process.env._VERSION,
-                        app: process.env._APP || '',
-                        device: (process.env._DEVICE || '').replace(/_/g,' '),
-                        'device-type': process.env._TYPE || '',
-                        'idle-timeout': 900,
-                        tags: [process.env._BROWSER || process.env._APP,process.env._PLATFORM,process.env._VERSION],
-                        name: 'grunt-webdriver test',
-                        build: process.env.TRAVIS_BUILD_NUMBER
+                        browserName: 'chrome',
+                        platform: 'Windows 8',
+                        version: '31',
+                        tags: ['chrome','Windows 8','31']
                     }
                 }
             },
-            ciTunnel: {
+            chrome_ciTunnel: {
                 tests: './test/*.js',
                 options: {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        browserName: (process.env._BROWSER || '').replace(/_/g,' '),
-                        platform: (process.env._PLATFORM || '').replace(/_/g,' '),
-                        version: process.env._VERSION,
-                        app: process.env._APP || '',
-                        device: (process.env._DEVICE || '').replace(/_/g,' '),
-                        'device-type': process.env._TYPE || '',
                         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-                        'idle-timeout': 900,
-                        tags: [process.env._BROWSER || process.env._APP,process.env._PLATFORM,process.env._VERSION],
-                        name: 'grunt-webdriver test',
-                        build: process.env.TRAVIS_BUILD_NUMBER
+                        browserName: 'chrome',
+                        platform: 'Windows 8',
+                        version: '31',
+                        tags: ['chrome','Windows 8','31','sauce connect']
+                    }
+                }
+            },
+            firefox_ci: {
+                tests: './test/*.js',
+                options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
+                    desiredCapabilities: {
+                        browserName: 'firefox',
+                        platform: 'Linux',
+                        version: '25',
+                        tags: ['firefox','Linux','25']
+                    }
+                }
+            },
+            firefox_ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        browserName: 'firefox',
+                        platform: 'Linux',
+                        version: '25',
+                        tags: ['firefox','Linux','25','sauce connect']
+                    }
+                }
+            },
+            ie_ci: {
+                tests: './test/*.js',
+                options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
+                    desiredCapabilities: {
+                        browserName: 'internet explorer',
+                        platform: 'Windows 8',
+                        version: '10',
+                        tags: ['internet explorer','Windows 8','10']
+                    }
+                }
+            },
+            ie_ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        browserName: 'internet explorer',
+                        platform: 'Windows 8',
+                        version: '10',
+                        tags: ['internet explorer','Windows 8','10','sauce connect']
+                    }
+                }
+            },
+            safari_ci: {
+                tests: './test/*.js',
+                options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
+                    desiredCapabilities: {
+                        browserName: 'safari',
+                        platform: 'Windows 7',
+                        version: '5',
+                        tags: ['safari','Windows 7','5']
+                    }
+                }
+            },
+            safari_ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        browserName: 'safari',
+                        platform: 'Windows 7',
+                        version: '5',
+                        tags: ['safari','Windows 7','5','sauce connect']
+                    }
+                }
+            },
+            iphone_ci: {
+                tests: './test/*.js',
+                options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
+                    desiredCapabilities: {
+                        app: 'safari',
+                        platform: 'Mac',
+                        version: '7',
+                        device: 'iPhone Simulator',
+                        tags: ['iphone','Mac','7']
+                    }
+                }
+            },
+            iphone_ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        app: 'safari',
+                        platform: 'Mac',
+                        version: '7',
+                        device: 'iPhone Simulator',
+                        tags: ['iphone','Mac','7','sauce connect']
+                    }
+                }
+            },
+            ipad_ci: {
+                tests: './test/*.js',
+                options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
+                    desiredCapabilities: {
+                        app: 'safari',
+                        platform: 'Mac',
+                        version: '7',
+                        device: 'iPad Simulator',
+                        tags: ['ipad','Mac','7']
+                    }
+                }
+            },
+            ipad_ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        app: 'safari',
+                        platform: 'Mac',
+                        version: '7',
+                        device: 'iPad Simulator',
+                        tags: ['ipad','Mac','7','sauce connect']
+                    }
+                }
+            },
+            android_ci: {
+                tests: './test/*.js',
+                options: {
+                    host: 'ondemand.saucelabs.com',
+                    port: 80,
+                    desiredCapabilities: {
+                        browserName: 'android',
+                        platform: 'Linux',
+                        version: '4.0',
+                        'device-type': 'tablet',
+                        tags: ['android','Linux','4.0']
+                    }
+                }
+            },
+            android_ciTunnel: {
+                tests: './test/*.js',
+                options: {
+                    updateSauceJob: true,
+                    port: 4445,
+                    desiredCapabilities: {
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        browserName: 'android',
+                        platform: 'Linux',
+                        version: '4.0',
+                        'device-type': 'tablet',
+                        tags: ['android','Linux','4.0','sauce connect']
                     }
                 }
             },
@@ -69,6 +229,14 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint', 'webdriver']);
     // default task for testing
     grunt.registerTask('test', ['webdriver:local']);
-    grunt.registerTask('testTravis', ['webdriver:ci','webdriver:ciTunnel']);
+    grunt.registerTask('testTravis', [
+        'webdriver:chrome_ci','webdriver:chrome_ciTunnel',
+        'webdriver:firefox_ci','webdriver:firefox_ciTunnel',
+        'webdriver:ie_ci','webdriver:ie_ciTunnel',
+        'webdriver:safari_ci','webdriver:safari_ciTunnel',
+        'webdriver:iphone_ci','webdriver:iphone_ciTunnel',
+        'webdriver:ipad_ci','webdriver:ipad_ciTunnel',
+        'webdriver:android_ci','webdriver:android_ciTunnel',
+    ]);
 
 };
