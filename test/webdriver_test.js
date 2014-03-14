@@ -5,9 +5,9 @@ describe('grunt-webdriverjs test', function () {
     it('checks if title contains the search query', function(done) {
 
         browser
-            .url('http://webdriver.io')
+            .url('http://webdriverjs.christian-bromann.com/')
             .getTitle(function(err,title) {
-                assert.strictEqual(title,'WebdriverJS - Selenium 2.0 javascript bindings for nodejs');
+                assert.strictEqual(title,'WebdriverJS Testpage');
             })
             .end(done);
 

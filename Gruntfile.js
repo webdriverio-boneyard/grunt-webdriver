@@ -34,11 +34,11 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         browserName: 'chrome',
                         platform: 'Windows 8',
                         version: '31',
-                        tags: ['chrome','Windows 8','31','sauce connect']
+                        tags: ['chrome','Windows 8','31','sauce connect'],
+                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                     }
                 }
             },
@@ -61,7 +61,6 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         browserName: 'firefox',
                         platform: 'Linux',
                         version: '25',
@@ -88,7 +87,6 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         browserName: 'internet explorer',
                         platform: 'Windows 8',
                         version: '10',
@@ -115,7 +113,6 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         browserName: 'safari',
                         platform: 'Windows 7',
                         version: '5',
@@ -129,6 +126,7 @@ module.exports = function(grunt) {
                     host: 'ondemand.saucelabs.com',
                     port: 80,
                     desiredCapabilities: {
+                        browserName: '',
                         app: 'safari',
                         platform: 'Mac',
                         version: '7',
@@ -143,7 +141,7 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        browserName: '',
                         app: 'safari',
                         platform: 'Mac',
                         version: '7',
@@ -158,6 +156,7 @@ module.exports = function(grunt) {
                     host: 'ondemand.saucelabs.com',
                     port: 80,
                     desiredCapabilities: {
+                        browserName: '',
                         app: 'safari',
                         platform: 'Mac',
                         version: '7',
@@ -172,7 +171,7 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        browserName: '',
                         app: 'safari',
                         platform: 'Mac',
                         version: '7',
@@ -201,7 +200,6 @@ module.exports = function(grunt) {
                     updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         browserName: 'android',
                         platform: 'Linux',
                         version: '4.0',

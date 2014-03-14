@@ -5,7 +5,11 @@ var Mocha         = require('mocha'),
     webdriverjs   = require('webdriverjs'),
     util          = require('util'),
     async         = require('async'),
-    merge         = require('lodash.merge');
+    merge         = require('lodash.merge'),
+    server = null,
+    isSeleniumServerRunning = false,
+    tunnel = null,
+    isSauceTunnelRunning = false;
 
 module.exports = function(grunt) {
 
@@ -24,10 +28,9 @@ module.exports = function(grunt) {
                 updateSauceJob: false
             }),
             capabilities = merge(options,this.data.options),
-            output = '',
-            tunnel = null
-            tunnelIdentifier = capabilities.desiredCapabilities['tunnel-identifier'] || null,
-            tunnelFlags = capabilities.desiredCapabilities['tunnel-flags'] || [];
+            tunnelIdentifier = options['tunnel-identifier'] || capabilities.desiredCapabilities['tunnel-identifier'] || null,
+            tunnelFlags = capabilities.desiredCapabilities['tunnel-flags'] || [],
+            isLastTask = grunt.task._queue.length - 2 === 0;
 
         /**
          * initialize WebdriverJS
@@ -56,14 +59,9 @@ module.exports = function(grunt) {
         };
 
         /**
-         * starts selenium standalone server if its not running
-         */
-        var server = selenium.start({ stdio: 'pipe' });
-
-        /**
          * initialise tunnel
          */
-        if(options.user && options.key && tunnelIdentifier) {
+        if(!tunnel && options.user && options.key && tunnelIdentifier) {
             tunnel = new SauceTunnel(options.user , options.key, tunnelIdentifier, true, tunnelFlags);
             tunnel.on('verbose:debug', grunt.log.debug);
         }
@@ -81,24 +79,53 @@ module.exports = function(grunt) {
         }
 
         async.waterfall([
+
             /**
-             * start selenium server or sauce tunnel
+             * start selenium server or sauce tunnel (if not already started)
              */
             function(callback) {
-                grunt.log.debug('start selenium server or sauce tunnel');
 
                 if(tunnel) {
+
+                    if(isSauceTunnelRunning) {
+                        return callback(null,true);
+                    }
+
+                    grunt.log.debug('start sauce tunnel');
+
+                    /**
+                     * start sauce tunnel
+                     */
                     tunnel.start(next.bind(callback));
-                } else {
+
+                } else if(!server && !isSeleniumServerRunning) {
+
+                    grunt.log.debug('start selenium standalone server');
+
+                    /**
+                     * starts selenium standalone server if its not running
+                     */
+                    server = selenium.start({ stdio: 'pipe' });
+
+                    /**
+                     * listen on server output
+                     */
                     server.stdout.on('data', next.bind(callback));
+
+                } else {
+
+                    callback(null,true);
+
                 }
+
             },
+
             /**
              * check if server is ready
              */
             function(output,callback) {
-
-                if(tunnel) {
+                
+                if(tunnel && !isSauceTunnelRunning) {
 
                     // output here means if tunnel was created successfully
                     if(output === false) {
@@ -106,26 +133,40 @@ module.exports = function(grunt) {
                     }
 
                     grunt.log.debug('tunnel created successfully');
+                    isSauceTunnelRunning = true;
                     callback(null);
 
-                } else {
+                } else if(server && !isSeleniumServerRunning) {
 
                     var line = output.toString().trim();
+
                     grunt.log.debug(line);
                     if (line.indexOf('Started HttpContext[/wd,/wd]') > -1) {
+                        grunt.log.debug('selenium server started successfully');
+                        isSeleniumServerRunning = true;
+                        server.stdout.removeAllListeners('data');
                         callback(null);
                     }
 
+                } else {
+
+                    callback(null);
+
                 }
+
             },
+
             /**
              * init WebdriverJS instance
              */
             function(callback) {
+                    
                 grunt.log.debug('init WebdriverJS instance');
 
                 GLOBAL.browser.init().call(next.bind(callback));
+
             },
+
             /**
              * run mocha tests
              */
@@ -134,6 +175,7 @@ module.exports = function(grunt) {
 
                 mocha.run(next.bind(callback));
             },
+
             /**
              * handle test results
              */
@@ -146,18 +188,25 @@ module.exports = function(grunt) {
                 // Close Remote sessions if needed
                 GLOBAL.browser.end(next.bind(callback,args));
             },
+
             /**
-             * destroy sauce tunnel
+             * destroy sauce tunnel if connected (once all tasks were executed)
              */
             function(args,callback) {
-                grunt.log.debug('destroy sauce tunnel');
 
-                if(tunnel) {
+                if(isLastTask && isSauceTunnelRunning) {
+
+                    grunt.log.debug('destroy sauce tunnel if connected (once all tasks were executed)');
                     tunnel.stop(next.bind(callback,args));
+
                 } else {
+
                     callback(null,args);
+
                 }
+
             },
+
             /**
              * update job on Sauce Labs
              */
@@ -165,6 +214,7 @@ module.exports = function(grunt) {
                 grunt.log.debug('update job on Sauce Labs');
 
                 if(options.user && options.key && options.updateSauceJob) {
+
                     var sauceAccount = new SauceLabs({
                         username: options.user,
                         password: options.key
@@ -174,10 +224,15 @@ module.exports = function(grunt) {
                         passed: args === 0,
                         public: true
                     }, next.bind(callback,args === 0));
+
                 } else {
+
                     callback(null,args === 0);
+
                 }
+
             },
+
             /**
              * finish grunt task
              */
