@@ -9,11 +9,7 @@ module.exports = function(grunt) {
                 user: process.env.SAUCE_USERNAME,
                 key: process.env.SAUCE_ACCESS_KEY,
                 logLevel: 'verbose',
-                updateSauceJob: true,
-                desiredCapabilities: {
-                    name: 'grunt-webdriver test',
-                    build: process.env.TRAVIS_BUILD_NUMBER
-                }
+                updateSauceJob: true
             },
             chrome_ci: {
                 tests: './test/*.js',
@@ -24,7 +20,9 @@ module.exports = function(grunt) {
                         browserName: 'chrome',
                         platform: 'Windows 8',
                         version: '31',
-                        tags: ['chrome','Windows 8','31']
+                        tags: ['chrome','Windows 8','31'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -38,6 +36,8 @@ module.exports = function(grunt) {
                         version: '31',
                         tags: ['chrome','Windows 8','31','sauce connect'],
                         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -50,7 +50,9 @@ module.exports = function(grunt) {
                         browserName: 'firefox',
                         platform: 'Linux',
                         version: '25',
-                        tags: ['firefox','Linux','25']
+                        tags: ['firefox','Linux','25'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -62,7 +64,9 @@ module.exports = function(grunt) {
                         browserName: 'firefox',
                         platform: 'Linux',
                         version: '25',
-                        tags: ['firefox','Linux','25','sauce connect']
+                        tags: ['firefox','Linux','25','sauce connect'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -75,7 +79,9 @@ module.exports = function(grunt) {
                         browserName: 'internet explorer',
                         platform: 'Windows 8',
                         version: '10',
-                        tags: ['internet explorer','Windows 8','10']
+                        tags: ['internet explorer','Windows 8','10'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -87,7 +93,9 @@ module.exports = function(grunt) {
                         browserName: 'internet explorer',
                         platform: 'Windows 8',
                         version: '10',
-                        tags: ['internet explorer','Windows 8','10','sauce connect']
+                        tags: ['internet explorer','Windows 8','10','sauce connect'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -100,7 +108,9 @@ module.exports = function(grunt) {
                         browserName: 'safari',
                         platform: 'Windows 7',
                         version: '5',
-                        tags: ['safari','Windows 7','5']
+                        tags: ['safari','Windows 7','5'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -112,7 +122,9 @@ module.exports = function(grunt) {
                         browserName: 'safari',
                         platform: 'Windows 7',
                         version: '5',
-                        tags: ['safari','Windows 7','5','sauce connect']
+                        tags: ['safari','Windows 7','5','sauce connect'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -127,7 +139,9 @@ module.exports = function(grunt) {
                         platform: 'Mac',
                         version: '7',
                         device: 'iPhone Simulator',
-                        tags: ['iphone','Mac','7']
+                        tags: ['iphone','Mac','7'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -141,7 +155,9 @@ module.exports = function(grunt) {
                         platform: 'Mac',
                         version: '7',
                         device: 'iPhone Simulator',
-                        tags: ['iphone','Mac','7','sauce connect']
+                        tags: ['iphone','Mac','7','sauce connect'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -156,7 +172,9 @@ module.exports = function(grunt) {
                         platform: 'Mac',
                         version: '7',
                         device: 'iPad Simulator',
-                        tags: ['ipad','Mac','7']
+                        tags: ['ipad','Mac','7'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -170,7 +188,9 @@ module.exports = function(grunt) {
                         platform: 'Mac',
                         version: '7',
                         device: 'iPad Simulator',
-                        tags: ['ipad','Mac','7','sauce connect']
+                        tags: ['ipad','Mac','7','sauce connect'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -184,7 +204,9 @@ module.exports = function(grunt) {
                         platform: 'Linux',
                         version: '4.0',
                         'device-type': 'tablet',
-                        tags: ['android','Linux','4.0']
+                        tags: ['android','Linux','4.0'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
@@ -197,7 +219,9 @@ module.exports = function(grunt) {
                         platform: 'Linux',
                         version: '4.0',
                         'device-type': 'tablet',
-                        tags: ['android','Linux','4.0','sauce connect']
+                        tags: ['android','Linux','4.0','sauce connect'],
+                        name: 'grunt-webdriver test',
+                        build: process.env.TRAVIS_BUILD_NUMBER
                     }
                 }
             },
