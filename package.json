@@ -35,7 +35,7 @@
     "saucelabs": "~0.1.1",
     "sauce-tunnel": "~2.0.1",
     "selenium-standalone": "~2.40.0-2.9.0",
-    "lodash.merge": "~2.4.1"
+    "deepmerge": "~0.2.7"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.1",

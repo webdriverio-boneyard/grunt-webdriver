@@ -5,7 +5,7 @@ var Mocha         = require('mocha'),
     webdriverjs   = require('webdriverjs'),
     util          = require('util'),
     async         = require('async'),
-    merge         = require('lodash.merge'),
+    deepmerge     = require('deepmerge'),
     server = null,
     isSeleniumServerRunning = false,
     tunnel = null,
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
                 timeout: 1000000,
                 updateSauceJob: false
             }),
-            capabilities = merge(options,this.data.options),
+            capabilities = deepmerge(options,this.data.options),
             tunnelIdentifier = options['tunnel-identifier'] || capabilities.desiredCapabilities['tunnel-identifier'] || null,
             tunnelFlags = capabilities.desiredCapabilities['tunnel-flags'] || [],
             isLastTask = grunt.task._queue.length - 2 === 0;
@@ -35,6 +35,7 @@ module.exports = function(grunt) {
         /**
          * initialize WebdriverJS
          */
+        grunt.log.debug('run webdriverjs with following capabilities: ' + JSON.stringify(capabilities));
         GLOBAL.browser = webdriverjs.remote(capabilities);
 
         /**
