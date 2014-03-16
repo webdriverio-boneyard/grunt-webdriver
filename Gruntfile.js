@@ -31,7 +31,6 @@ module.exports = function(grunt) {
             chrome_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: 'chrome',
@@ -58,7 +57,6 @@ module.exports = function(grunt) {
             firefox_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: 'firefox',
@@ -84,7 +82,6 @@ module.exports = function(grunt) {
             ie_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: 'internet explorer',
@@ -110,7 +107,6 @@ module.exports = function(grunt) {
             safari_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: 'safari',
@@ -138,7 +134,6 @@ module.exports = function(grunt) {
             iphone_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: '',
@@ -168,7 +163,6 @@ module.exports = function(grunt) {
             ipad_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: '',
@@ -197,7 +191,6 @@ module.exports = function(grunt) {
             android_ciTunnel: {
                 tests: './test/*.js',
                 options: {
-                    updateSauceJob: true,
                     port: 4445,
                     desiredCapabilities: {
                         browserName: 'android',
@@ -228,12 +221,12 @@ module.exports = function(grunt) {
     // default task for testing
     grunt.registerTask('test', ['webdriver:local']);
     grunt.registerTask('testTravis', [
-        'webdriver:chrome_ci','webdriver:chrome_ciTunnel',
+        'webdriver:chrome_ci' ,'webdriver:chrome_ciTunnel',
         'webdriver:firefox_ci','webdriver:firefox_ciTunnel',
-        'webdriver:ie_ci','webdriver:ie_ciTunnel',
-        'webdriver:safari_ci','webdriver:safari_ciTunnel',
-        'webdriver:iphone_ci','webdriver:iphone_ciTunnel',
-        'webdriver:ipad_ci','webdriver:ipad_ciTunnel',
+        'webdriver:ie_ci'     ,'webdriver:ie_ciTunnel',
+        'webdriver:safari_ci' ,'webdriver:safari_ciTunnel',
+        'webdriver:iphone_ci' ,'webdriver:iphone_ciTunnel',
+        'webdriver:ipad_ci'   ,'webdriver:ipad_ciTunnel',
         'webdriver:android_ci','webdriver:android_ciTunnel',
     ]);
 
