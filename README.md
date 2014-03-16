@@ -195,5 +195,5 @@ maintain the existing coding style.
 * 2013-03-16   v0.1.6   fixed webdriverjs version
 * 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
 * 2014-03-13   v0.3.0   support Sauce Connect
-* 2014-03-16   v0.3.1   start selenium server and Sauce Connect tunnel only once
+* 2014-03-16   v0.3.1   start selenium server and Sauce Connect tunnel only once
 
