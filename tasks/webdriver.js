@@ -27,9 +27,9 @@ module.exports = function(grunt) {
                 timeout: 1000000,
                 updateSauceJob: false
             }),
-            capabilities = deepmerge(options,this.data.options),
-            tunnelIdentifier = options['tunnel-identifier'] || capabilities.desiredCapabilities['tunnel-identifier'] || null,
-            tunnelFlags = capabilities.desiredCapabilities['tunnel-flags'] || [],
+            capabilities = deepmerge(options,this.data.options || {}),
+            tunnelIdentifier = options['tunnel-identifier'] || (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-identifier'] : null) || null,
+            tunnelFlags = (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-flags'] : []) || [],
             isLastTask = grunt.task._queue.length - 2 === 0;
 
         /**
