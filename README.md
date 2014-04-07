@@ -1,8 +1,6 @@
-# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverjs/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver) [![Selenium Test Status](https://saucelabs.com/buildstatus/grunt-webdriver)](https://saucelabs.com/u/grunt-webdriver) [![Dependency Status](https://gemnasium.com/webdriverjs/grunt-webdriver.png)](https://gemnasium.com/webdriverjs/grunt-webdriver)
+# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverjs/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver) [![Coverage Status](https://coveralls.io/repos/webdriverjs/grunt-webdriver/badge.png)](https://coveralls.io/r/webdriverjs/grunt-webdriver)
 
 > grunt-webdriver is a grunt plugin to run selenium tests with Mocha and [WebdriverJS](http://webdriver.io)
-
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/grunt-webdriver.svg)](https://saucelabs.com/u/grunt-webdriver)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`

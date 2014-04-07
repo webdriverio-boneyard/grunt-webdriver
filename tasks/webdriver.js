@@ -5,6 +5,9 @@ var Mocha         = require('mocha'),
     webdriverjs   = require('webdriverjs'),
     util          = require('util'),
     async         = require('async'),
+    hooker        = require('hooker'),
+    path          = require('path'),
+    fs            = require('fs-extra'),
     deepmerge     = require('deepmerge'),
     server = null,
     isSeleniumServerRunning = false,
@@ -25,17 +28,21 @@ module.exports = function(grunt) {
                 bail: false,
                 grep: null,
                 timeout: 1000000,
-                updateSauceJob: false
+                updateSauceJob: false,
+                output: null,
+                quiet: false
             }),
             capabilities = deepmerge(options,this.data.options || {}),
             tunnelIdentifier = options['tunnel-identifier'] || (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-identifier'] : null) || null,
             tunnelFlags = (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-flags'] : []) || [],
-            isLastTask = grunt.task._queue.length - 2 === 0;
+            isLastTask = grunt.task._queue.length - 2 === 0,
+            fd;
 
         /**
          * initialize WebdriverJS
          */
         grunt.log.debug('run webdriverjs with following capabilities: ' + JSON.stringify(capabilities));
+        capabilities.logLevel = options.quiet ? 'silent' : capabilities.logLevel;
         GLOBAL.browser = webdriverjs.remote(capabilities);
 
         /**
@@ -45,6 +52,35 @@ module.exports = function(grunt) {
 
         grunt.file.expand(grunt.file.expand(base + '/' + this.data.tests)).forEach(function(file) {
             mocha.addFile(file);
+        });
+
+        /**
+         * hook process.stdout.write to save reporter output into file
+         * thanks to https://github.com/pghalliday/grunt-mocha-test
+         */
+        if (options.output) {
+            fs.mkdirsSync(path.dirname(options.output));
+            fd = fs.openSync(options.output, 'w');
+        }
+
+        // Hook process.stdout.write
+        hooker.hook(process.stdout, 'write', {
+
+            // This gets executed before the original process.stdout.write
+            pre: function(result) {
+
+                // Write result to file if it was opened
+                if (fd) {
+                    fs.writeSync(fd, result);
+                }
+
+                // Prevent the original process.stdout.write from executing if quiet was specified
+                if (options.quiet) {
+                    return hooker.preempt();
+                }
+
+            }
+
         });
 
         /**
@@ -188,6 +224,14 @@ module.exports = function(grunt) {
 
                 // Close Remote sessions if needed
                 GLOBAL.browser.end(next.bind(callback,args));
+
+                // close the file if it was opened
+                if (fd) {
+                    fs.closeSync(fd);
+                }
+
+                // Restore process.stdout.write to its original value
+                hooker.unhook(process.stdout, 'write');
             },
 
             /**

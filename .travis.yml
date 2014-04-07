@@ -6,6 +6,12 @@ node_js:
 before_script:
   - npm install -g grunt-cli
 
+after_script:
+  - mv tasks tasks_orig
+  - ./node_modules/.bin/istanbul i tasks_orig -o tasks
+  - ISTANBUL_REPORTERS=lcov grunt webdriver:coverage
+  - cat lcov.info | ./node_modules/coveralls/bin/coveralls.js
+
 env:
   global:
     - secure: QCidJxcH1yyMgW780fHn9+vD1ybqH/hr6Ej+c3RWmQyzNmtsLTpOcM4iVXf27imLC7spXJ1+9gj7mmECNrHCLiyenvb/ml/hesfNbl0jpHt7EEjmkD/XjOp+47HMk9A3/lUeR4sxIedu1gmwfCdzE5YMJz8cAdUrwmTUd4tWAKw=

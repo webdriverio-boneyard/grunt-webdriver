@@ -35,16 +35,30 @@
     "saucelabs": "~0.1.1",
     "sauce-tunnel": "~2.0.1",
     "selenium-standalone": "~2.40.0-2.9.0",
-    "deepmerge": "~0.2.7"
+    "deepmerge": "~0.2.7",
+    "hooker": "^0.2.3",
+    "path": "^0.4.9",
+    "fs-extra": "^0.8.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.1",
-    "grunt": "~0.4.2"
+    "grunt": "~0.4.2",
+    "mocha-istanbul": "^0.2.0",
+    "istanbul": "^0.2.7",
+    "coveralls": "^2.10.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.2"
   },
   "keywords": [
-    "grunt","webdriverjs","webdriver","selenium","mocha","bdd","tdd","saucelabs","gruntplugin"
+    "grunt",
+    "webdriverjs",
+    "webdriver",
+    "selenium",
+    "mocha",
+    "bdd",
+    "tdd",
+    "saucelabs",
+    "gruntplugin"
   ]
 }
