@@ -12,7 +12,8 @@ var Mocha         = require('mocha'),
     server = null,
     isSeleniumServerRunning = false,
     tunnel = null,
-    isSauceTunnelRunning = false;
+    isSauceTunnelRunning = false,
+    isHookedUp = false;
 
 module.exports = function(grunt) {
 
@@ -58,30 +59,34 @@ module.exports = function(grunt) {
          * hook process.stdout.write to save reporter output into file
          * thanks to https://github.com/pghalliday/grunt-mocha-test
          */
-        if (options.output) {
-            fs.mkdirsSync(path.dirname(options.output));
-            fd = fs.openSync(options.output, 'w');
-        }
-
-        // Hook process.stdout.write
-        hooker.hook(process.stdout, 'write', {
-
-            // This gets executed before the original process.stdout.write
-            pre: function(result) {
-
-                // Write result to file if it was opened
-                if (fd) {
-                    fs.writeSync(fd, result);
-                }
-
-                // Prevent the original process.stdout.write from executing if quiet was specified
-                if (options.quiet) {
-                    return hooker.preempt();
-                }
-
+        if(!isHookedUp) {
+            if (options.output) {
+                fs.mkdirsSync(path.dirname(options.output));
+                fd = fs.openSync(options.output, 'w');
             }
 
-        });
+            // Hook process.stdout.write
+            hooker.hook(process.stdout, 'write', {
+
+                // This gets executed before the original process.stdout.write
+                pre: function(result) {
+
+                    // Write result to file if it was opened
+                    if (fd) {
+                        fs.writeSync(fd, result);
+                    }
+
+                    // Prevent the original process.stdout.write from executing if quiet was specified
+                    if (options.quiet) {
+                        return hooker.preempt();
+                    }
+
+                }
+
+            });
+
+            isHookedUp = true;
+        }
 
         /**
          * temporary remove the grunt exception handler , to make tasks continue (see also)
@@ -91,6 +96,7 @@ module.exports = function(grunt) {
         var uncaughtExceptionHandlers = process.listeners('uncaughtException');
         process.removeAllListeners('uncaughtException');
 
+        /*istanbul ignore next*/
         var unmanageExceptions = function() {
             uncaughtExceptionHandlers.forEach(process.on.bind(process, 'uncaughtException'));
         };
@@ -197,11 +203,9 @@ module.exports = function(grunt) {
              * init WebdriverJS instance
              */
             function(callback) {
-                    
                 grunt.log.debug('init WebdriverJS instance');
 
                 GLOBAL.browser.init().call(next.bind(callback));
-
             },
 
             /**
@@ -224,14 +228,6 @@ module.exports = function(grunt) {
 
                 // Close Remote sessions if needed
                 GLOBAL.browser.end(next.bind(callback,args));
-
-                // close the file if it was opened
-                if (fd) {
-                    fs.closeSync(fd);
-                }
-
-                // Restore process.stdout.write to its original value
-                hooker.unhook(process.stdout, 'write');
             },
 
             /**
@@ -286,6 +282,18 @@ module.exports = function(grunt) {
 
                 done(args);
                 callback();
+
+                if(isLastTask) {
+
+                    // close the file if it was opened
+                    if (fd) {
+                        fs.closeSync(fd);
+                    }
+
+                    // Restore process.stdout.write to its original value
+                    hooker.unhook(process.stdout, 'write');
+
+                }
             }
         ]);
 

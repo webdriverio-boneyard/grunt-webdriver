@@ -6,10 +6,12 @@ module.exports = function(grunt) {
         // Configuration to be run (and then tested).
         webdriver: {
             options: {
+                updateSauceJob: true,
                 user: process.env.SAUCE_USERNAME,
                 key: process.env.SAUCE_ACCESS_KEY,
-                logLevel: 'verbose',
-                updateSauceJob: true
+                logLevel: process.env.LOG_LEVEL,
+                reporter: process.env.MOCHA_REPORTERS,
+                output: process.env.ISTANBUL_REPORTERS
             },
             chrome_ci: {
                 tests: './test/*.js',
@@ -38,18 +40,6 @@ module.exports = function(grunt) {
                         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
                         name: 'grunt-webdriver test',
                         build: process.env.TRAVIS_BUILD_NUMBER
-                    }
-                }
-            },
-            coverage: {
-                tests: './test/*.js',
-                options: {
-                    output: 'lcov.info',
-                    reporter: 'mocha-istanbul',
-                    // quiet: false,
-                    logLevel: 'silent',
-                    desiredCapabilities: {
-                        browserName: 'phantomjs'
                     }
                 }
             },
