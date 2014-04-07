@@ -7,8 +7,8 @@ before_script:
   - npm install -g grunt-cli
 
 after_script:
-  - mv tasks tasks_orig
-  - ./node_modules/.bin/istanbul i tasks_orig -o tasks
+  - ./node_modules/.bin/istanbul i tasks -o tasks-cov
+  - "rm -r tasks && mv tasks-cov tasks"
   - ISTANBUL_REPORTERS=lcov grunt webdriver:coverage
   - cat lcov.info | ./node_modules/coveralls/bin/coveralls.js
 

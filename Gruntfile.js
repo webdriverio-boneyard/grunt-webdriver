@@ -72,14 +72,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint', 'webdriver']);
     // default task for testing
     grunt.registerTask('test', ['webdriver:local']);
-    grunt.registerTask('testTravis', [
-        'webdriver:chrome_ci' ,'webdriver:chrome_ciTunnel',
-        'webdriver:firefox_ci','webdriver:firefox_ciTunnel',
-        'webdriver:ie_ci'     ,'webdriver:ie_ciTunnel',
-        'webdriver:safari_ci' ,'webdriver:safari_ciTunnel',
-        'webdriver:iphone_ci' ,'webdriver:iphone_ciTunnel',
-        'webdriver:ipad_ci'   ,'webdriver:ipad_ciTunnel',
-        'webdriver:android_ci','webdriver:android_ciTunnel',
-    ]);
+    grunt.registerTask('testTravis', ['webdriver:chrome_ci' ,'webdriver:chrome_ciTunnel']);
 
 };
