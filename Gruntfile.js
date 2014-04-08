@@ -9,10 +9,7 @@ module.exports = function(grunt) {
                 updateSauceJob: true,
                 user: process.env.SAUCE_USERNAME,
                 key: process.env.SAUCE_ACCESS_KEY,
-                logLevel: process.env.LOG_LEVEL,
-                reporter: process.env.MOCHA_REPORTERS,
-                output: process.env.ISTANBUL_REPORTERS,
-                quiet: process.env.ISTANBUL_REPORTERS === 'lcov'
+                logLevel: 'verbose'
             },
             chrome_ci: {
                 tests: './test/*.js',
@@ -25,7 +22,7 @@ module.exports = function(grunt) {
                         version: '31',
                         tags: ['chrome','Windows 8','31'],
                         name: 'grunt-webdriver test',
-                        build: process.env.TRAVIS_BUILD_NUMBER
+                        build: process.env.TRAVIS_BUILD_NUMBER || '008'
                     }
                 }
             },

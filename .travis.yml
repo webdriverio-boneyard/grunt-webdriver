@@ -5,21 +5,10 @@ node_js:
 
 before_script:
   - "npm install -g grunt-cli"
-  - "if [[ $MOCHA_REPORTERS == 'mocha-istanbul' ]]; then ./node_modules/.bin/istanbul i tasks -o tasks-cov && rm -r tasks && mv tasks-cov tasks; fi"
 
 script: "npm run-script travis"
-
-after_script:
-  - "if [[ $MOCHA_REPORTERS == 'mocha-istanbul' ]]; then cat lcov.info | ./node_modules/coveralls/bin/coveralls.js; fi"
 
 env:
   global:
     - secure: QCidJxcH1yyMgW780fHn9+vD1ybqH/hr6Ej+c3RWmQyzNmtsLTpOcM4iVXf27imLC7spXJ1+9gj7mmECNrHCLiyenvb/ml/hesfNbl0jpHt7EEjmkD/XjOp+47HMk9A3/lUeR4sxIedu1gmwfCdzE5YMJz8cAdUrwmTUd4tWAKw=
     - secure: NdCbGDIVTZYsFbvrtv6MNG+gsn5RCpWxTmiZhzlpADC3kbdrmngR+lTCurTrOtomEXfue2Nsuyf9FEw8RHfDwyNtOPxkkvyRLjEYsFxwFCoM1rSgh5XaRlDwOq6bzur8QlGcerbLumnRZe2i9eABrAezmDgRrd0/s3tWeONxXPw=
-
-  matrix:
-    - MOCHA_REPORTERS: "spec"
-      LOG_LEVEL: "verbose"
-    - MOCHA_REPORTERS: "mocha-istanbul"
-      ISTANBUL_REPORTERS: "lcov"
-      LOG_LEVEL: "verbose"
