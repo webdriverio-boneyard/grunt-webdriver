@@ -137,6 +137,18 @@ Default: *false*
 
 If true it will automatically update the current job and does publish it.
 
+#### output
+Type: `String`
+Default: *null*
+
+If set grunt-webdriver will pipe reporter output into given file path
+
+#### quiet
+Type: `Boolean`
+Default: *false*
+
+If true it prevents the original process.stdout.write from executing - no output at all
+
 #### nospawn
 Type: `Boolean`<br>
 Default: *false*
