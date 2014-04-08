@@ -11,7 +11,8 @@ module.exports = function(grunt) {
                 key: process.env.SAUCE_ACCESS_KEY,
                 logLevel: process.env.LOG_LEVEL,
                 reporter: process.env.MOCHA_REPORTERS,
-                output: process.env.ISTANBUL_REPORTERS
+                output: process.env.ISTANBUL_REPORTERS,
+                quiet: process.env.ISTANBUL_REPORTERS === 'lcov'
             },
             chrome_ci: {
                 tests: './test/*.js',
