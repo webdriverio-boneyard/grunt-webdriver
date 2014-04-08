@@ -22,4 +22,4 @@ env:
       LOG_LEVEL: "verbose"
     - MOCHA_REPORTERS: "mocha-istanbul"
       ISTANBUL_REPORTERS: "lcov"
-      LOG_LEVEL: "silent"
+      LOG_LEVEL: "verbose"

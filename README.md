@@ -137,6 +137,12 @@ Default: *false*
 
 If true it will automatically update the current job and does publish it.
 
+#### nospawn
+Type: `Boolean`<br>
+Default: *false*
+
+If true it will not spawn a new selenium server process (useful if you use Sauce Labs without Sauce Tunnel)
+
 ### Usage Examples
 
 #### Required Options

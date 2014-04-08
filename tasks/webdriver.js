@@ -32,7 +32,8 @@ module.exports = function(grunt) {
                 timeout: 1000000,
                 updateSauceJob: false,
                 output: null,
-                quiet: false
+                quiet: false,
+                nospawn: false
             }),
             capabilities = deepmerge(options,this.data.options || {}),
             tunnelIdentifier = options['tunnel-identifier'] || (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-identifier'] : null) || null,
@@ -166,7 +167,7 @@ module.exports = function(grunt) {
                      */
                     tunnel.start(next.bind(callback));
 
-                } else if(!server && !isSeleniumServerRunning) {
+                } else if(!server && !isSeleniumServerRunning && !options.nospawn) {
 
                     grunt.log.debug('start selenium standalone server');
 
@@ -204,7 +205,7 @@ module.exports = function(grunt) {
                     isSauceTunnelRunning = true;
                     callback(null);
 
-                } else if(server && !isSeleniumServerRunning) {
+                } else if(server && !isSeleniumServerRunning && !options.nospawn) {
 
                     var line = output.toString().trim();
 
