@@ -4,6 +4,7 @@ var Mocha         = require('mocha'),
     selenium      = require('selenium-standalone'),
     webdriverjs   = require('webdriverjs'),
     util          = require('util'),
+    http          = require('http'),
     async         = require('async'),
     hooker        = require('hooker'),
     path          = require('path'),
@@ -122,6 +123,30 @@ module.exports = function(grunt) {
         }
 
         async.waterfall([
+
+            /**
+             * check if selenium server is already running
+             */
+            function(callback) {
+
+                if(tunnel) {
+                    return callback(null);
+                }
+
+                var options = {
+                    host: 'localhost',
+                    port: 4444,
+                    path: '/wd/hub/status'
+                };
+
+                http.get(options, function() {
+                    isSeleniumServerRunning = true;
+                    callback(null);
+                }).on('error', function() {
+                    callback(null);
+                });
+
+            },
 
             /**
              * start selenium server or sauce tunnel (if not already started)
