@@ -30,20 +30,20 @@
     "test": "grunt test --debug"
   },
   "dependencies": {
-    "async": "~0.2.10",
-    "mocha": "~1.18.0",
-    "webdriverjs": "~1.5.x",
-    "saucelabs": "~0.1.1",
-    "sauce-tunnel": "~2.0.1",
-    "selenium-standalone": "~2.40.0-2.9.0",
-    "deepmerge": "~0.2.7",
+    "async": "^0.7.0",
+    "mocha": "^1.18.0",
+    "webdriverjs": "^1.6.0",
+    "saucelabs": "^0.1.1",
+    "sauce-tunnel": "^2.0.1",
+    "selenium-standalone": "^2.41.0-2.9.0",
+    "deepmerge": "^0.2.7",
     "hooker": "^0.2.3",
     "path": "^0.4.9",
     "fs-extra": "^0.8.1"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt": "~0.4.2"
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt": "^0.4.2"
   },
   "peerDependencies": {
     "grunt": "~0.4.2"
