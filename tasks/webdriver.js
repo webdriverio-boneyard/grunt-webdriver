@@ -53,7 +53,9 @@ module.exports = function(grunt) {
          */
         var mocha = new Mocha(options);
 
-        grunt.file.expand(grunt.file.expand(base + '/' + this.data.tests)).forEach(function(file) {
+        grunt.file.setBase(base);
+
+        grunt.file.expand(this.data.tests).forEach(function(file) {
             mocha.addFile(file);
         });
 
