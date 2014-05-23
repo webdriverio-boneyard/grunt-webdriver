@@ -32,10 +32,10 @@
   "dependencies": {
     "async": "^0.7.0",
     "mocha": "^1.18.0",
-    "webdriverjs": "^1.6.0",
+    "webdriverjs": "*",
     "saucelabs": "^0.1.1",
     "sauce-tunnel": "^2.0.1",
-    "selenium-standalone": "^2.41.0-2.9.0",
+    "selenium-standalone": "^2.41.0-2.9.0-1",
     "deepmerge": "^0.2.7",
     "hooker": "^0.2.3",
     "path": "^0.4.9",
