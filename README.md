@@ -215,3 +215,4 @@ maintain the existing coding style.
 * 2014-03-22   v0.3.2   make task work with absolute minimum required options - closes [#11](https://github.com/webdriverjs/grunt-webdriver/issues/11)
 * 2014-03-13   v0.3.3   updated version of WebdriverJS
 * 2014-03-13   v0.4.0   pipe reporter output into file, expose flag to prevent spawing of selenium process
+* 2014-05-23   v0.4.1   updated dependencies
