@@ -198,6 +198,22 @@ describe('grunt-webdriverjs test', function () {
 });
 ```
 
+#### Using CoffeeScript
+
+If you like to write your tests in CoffeeScript just add the following on the top of your Gruntfile
+and you are set.
+
+```js
+require('coffee-script/register');
+
+module.exports = function(grunt) {
+    // Project configuration.
+    grunt.initConfig({
+        // ...
+    });
+}
+```
+
 ## Contributing
 Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to
 maintain the existing coding style.
