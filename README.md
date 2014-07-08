@@ -1,4 +1,4 @@
-# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverjs/grunt-webdriver.png)](https://travis-ci.org/christian-bromann/grunt-webdriver)
+# grunt-webdriver [![Build Status](https://travis-ci.org/webdriverio/grunt-webdriver.png)](https://travis-ci.org/webdriverio/grunt-webdriver)
 
 > grunt-webdriver is a grunt plugin to run selenium tests with Mocha and [WebdriverJS](http://webdriver.io)
 
@@ -228,7 +228,7 @@ maintain the existing coding style.
 * 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
 * 2014-03-13   v0.3.0   support Sauce Connect
 * 2014-03-16   v0.3.1   start selenium server and Sauce Connect tunnel only once
-* 2014-03-22   v0.3.2   make task work with absolute minimum required options - closes [#11](https://github.com/webdriverjs/grunt-webdriver/issues/11)
+* 2014-03-22   v0.3.2   make task work with absolute minimum required options - closes [#11](https://github.com/webdriverio/grunt-webdriver/issues/11)
 * 2014-03-13   v0.3.3   updated version of WebdriverJS
 * 2014-03-13   v0.4.0   pipe reporter output into file, expose flag to prevent spawing of selenium process
 * 2014-05-23   v0.4.1   updated dependencies
