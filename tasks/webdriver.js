@@ -2,7 +2,7 @@ var Mocha         = require('mocha'),
     SauceLabs     = require('saucelabs'),
     SauceTunnel   = require('sauce-tunnel'),
     selenium      = require('selenium-standalone'),
-    webdriverjs   = require('webdriverjs'),
+    webdriverio   = require('webdriverio'),
     util          = require('util'),
     http          = require('http'),
     async         = require('async'),
@@ -18,7 +18,7 @@ var Mocha         = require('mocha'),
 
 module.exports = function(grunt) {
 
-    grunt.registerMultiTask('webdriver', 'run WebdriverJS tests with Mocha', function() {
+    grunt.registerMultiTask('webdriver', 'run WebdriverIO tests with Mocha', function() {
 
         var that = this,
             done = this.async(),
@@ -42,11 +42,11 @@ module.exports = function(grunt) {
             fd;
 
         /**
-         * initialize WebdriverJS
+         * initialize WebdriverIO
          */
-        grunt.log.debug('run webdriverjs with following capabilities: ' + JSON.stringify(capabilities));
+        grunt.log.debug('run webdriverio with following capabilities: ' + JSON.stringify(capabilities));
         capabilities.logLevel = options.quiet ? 'silent' : capabilities.logLevel;
-        GLOBAL.browser = webdriverjs.remote(capabilities);
+        GLOBAL.browser = webdriverio.remote(capabilities);
 
         /**
          * initialize Mocha
@@ -195,7 +195,7 @@ module.exports = function(grunt) {
              * check if server is ready
              */
             function(output,callback) {
-                
+
                 if(tunnel && !isSauceTunnelRunning) {
 
                     // output here means if tunnel was created successfully
@@ -228,10 +228,10 @@ module.exports = function(grunt) {
             },
 
             /**
-             * init WebdriverJS instance
+             * init WebdriverIO instance
              */
             function(callback) {
-                grunt.log.debug('init WebdriverJS instance');
+                grunt.log.debug('init WebdriverIO instance');
 
                 GLOBAL.browser.init().call(next.bind(callback));
             },
