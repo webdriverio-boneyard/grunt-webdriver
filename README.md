@@ -1,6 +1,6 @@
 # grunt-webdriver [![Build Status](https://travis-ci.org/webdriverio/grunt-webdriver.png)](https://travis-ci.org/webdriverio/grunt-webdriver)
 
-> grunt-webdriver is a grunt plugin to run selenium tests with Mocha and [WebdriverJS](http://webdriver.io)
+> grunt-webdriver is a grunt plugin to run selenium tests with Mocha and [WebdriverIO](http://webdriver.io)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
@@ -88,9 +88,9 @@ grunt.initConfig({
 
 ### Options
 
-All options get passed into the WebdriverJS `remote` function. So this is the place where
-you can define your driver instance. You'll find more informations about all WebdriverJS
-options [here](https://github.com/camme/webdriverjs/#options). You can overwrite these
+All options get passed into the WebdriverIO `remote` function. So this is the place where
+you can define your driver instance. You'll find more informations about all WebdriverIO
+options [here](https://github.com/webdriverio/webdriverio#options). You can overwrite these
 options in any target. Also you have to define all Mocha options here. The following
 are supported:
 
@@ -171,16 +171,16 @@ grunt.initConfig({
 })
 ```
 
-The corresponding *Hello World* test script is using WebdriverJS API to search the
+The corresponding *Hello World* test script is using WebdriverIO API to search the
 grunt-webdriver repository on GitHub. The global `browser` variable lets you access
-your client instance. See more functions and test examples in the [WebdriverJS](https://github.com/Camme/webdriverjs) repository.
+your client instance. See more functions and test examples in the [WebdriverIO](https://github.com/webdriverio/webdriverio) repository.
 
 ```js
 'use strict';
 
 var assert = require('assert');
 
-describe('grunt-webdriverjs test', function () {
+describe('grunt-webdriver test', function () {
 
     it('checks if title contains the search query', function(done) {
 
@@ -224,7 +224,7 @@ maintain the existing coding style.
 * 2013-03-15   v0.1.3   added support for phantomjs, implemented reporter option
 * 2013-03-16   v0.1.4   save result of busterjs reporters to a file, use travis for CI testing
 * 2013-03-16   v0.1.5   added support for setUp function
-* 2013-03-16   v0.1.6   fixed webdriverjs version
+* 2013-03-16   v0.1.6   fixed WebdriverJS version
 * 2014-02-01   v0.2.0   rewrote plugin, replaced BusterJS with Mocha
 * 2014-03-13   v0.3.0   support Sauce Connect
 * 2014-03-16   v0.3.1   start selenium server and Sauce Connect tunnel only once

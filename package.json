@@ -1,6 +1,6 @@
 {
   "name": "grunt-webdriver",
-  "description": "grunt-webdriver is a grunt plugin to run selenium tests with Mocha and WebdriverJS",
+  "description": "grunt-webdriver is a grunt plugin to run selenium tests with Mocha and WebdriverIO",
   "version": "0.4.1",
   "homepage": "https://github.com/webdriverio/grunt-webdriver",
   "author": {
@@ -32,7 +32,7 @@
   "dependencies": {
     "async": "^0.7.0",
     "mocha": "^1.18.0",
-    "webdriverjs": "*",
+    "webdriverio": "^2.1.0",
     "saucelabs": "^0.1.1",
     "sauce-tunnel": "^2.0.1",
     "selenium-standalone": "^2.41.0-2.9.0-1",
