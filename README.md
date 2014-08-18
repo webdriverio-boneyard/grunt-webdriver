@@ -232,3 +232,4 @@ maintain the existing coding style.
 * 2014-03-13   v0.3.3   updated version of WebdriverJS
 * 2014-03-13   v0.4.0   pipe reporter output into file, expose flag to prevent spawing of selenium process
 * 2014-05-23   v0.4.1   updated dependencies
+* 2014-08-17   v0.4.2   updated webdriverjs dependencies
