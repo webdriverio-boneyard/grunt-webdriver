@@ -1,7 +1,7 @@
 {
   "name": "grunt-webdriver",
   "description": "grunt-webdriver is a grunt plugin to run selenium tests with Mocha and WebdriverIO",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "homepage": "https://github.com/webdriverio/grunt-webdriver",
   "author": {
     "name": "Christian Bromann",
