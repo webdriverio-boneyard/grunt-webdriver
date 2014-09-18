@@ -181,7 +181,9 @@ module.exports = function(grunt) {
                     /**
                      * listen on server output
                      */
-                    server.stdout.on('data', next.bind(callback));
+                    ['stderr','stdout'].forEach(function(output) {
+                        server[output].on('data', next.bind(callback));
+                    });
 
                 } else {
 
@@ -215,7 +217,11 @@ module.exports = function(grunt) {
                     if (line.indexOf('Started HttpContext[/wd,/wd]') > -1) {
                         grunt.log.debug('selenium server started successfully');
                         isSeleniumServerRunning = true;
-                        server.stdout.removeAllListeners('data');
+
+                        ['stderr','stdout'].forEach(function(output) {
+                            server[output].removeAllListeners('data');
+                        });
+
                         callback(null);
                     }
 
