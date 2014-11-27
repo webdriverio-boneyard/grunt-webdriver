@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 pre: function(result) {
 
                     // Write result to file if it was opened
-                    if (fd && result.slice(0, 3) !== '[D]' && result.match(/\u001b\[1/g) === null) {
+                    if (fd && result.slice(0, 3) !== '[D]' && result.match(/\u001b\[/g) === null) {
                         fs.writeSync(fd, result);
                     }
 
