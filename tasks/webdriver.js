@@ -38,7 +38,7 @@ module.exports = function(grunt) {
             capabilities = deepmerge(options,this.data.options || {}),
             tunnelIdentifier = options['tunnel-identifier'] || (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-identifier'] : null) || null,
             tunnelFlags = (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-flags'] : []) || [],
-            isLastTask = grunt.task._queue.length - 2 === 0,
+            isLastTask = grunt.task._queue.length - 1 === 0,
             fd;
 
         /**
