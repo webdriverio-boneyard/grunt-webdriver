@@ -76,7 +76,7 @@ module.exports = function(grunt) {
                 pre: function(result) {
 
                     // Write result to file if it was opened
-                    if (fd) {
+                    if (fd && result.slice(0, 3) !== '[D]' && result.match(/\u001b\[1/g) === null) {
                         fs.writeSync(fd, result);
                     }
 
@@ -314,9 +314,6 @@ module.exports = function(grunt) {
             function(args,callback){
                 grunt.log.debug('finish grunt task',args);
 
-                done(args);
-                callback();
-
                 if(isLastTask) {
 
                     // close the file if it was opened
@@ -328,6 +325,9 @@ module.exports = function(grunt) {
                     hooker.unhook(process.stdout, 'write');
 
                 }
+
+                done(args);
+                callback();
             }
         ]);
 
