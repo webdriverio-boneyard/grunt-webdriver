@@ -235,3 +235,4 @@ maintain the existing coding style.
 * 2014-08-17   v0.4.2   updated webdriverjs dependencies
 * 2014-08-17   v0.4.3   fixed broke v0.4.3 version
 * 2014-09-18   v0.4.4   selenium server outputs log on stderr, implemented workaround
+* 2014-11-27   v0.4.5   Updated WebdriverIO package version, smaller bugfixes regarding file output
