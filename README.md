@@ -191,7 +191,7 @@ describe('grunt-webdriver test', function () {
             .getTitle(function(err,title) {
                 assert(title.indexOf('grunt-webdriver') !== -1);
             })
-            .end(done);
+            .call(done);
 
     });
 

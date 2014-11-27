@@ -9,7 +9,7 @@ describe('grunt-webdriverjs test', function () {
             .getTitle(function(err,title) {
                 assert.strictEqual(title,'WebdriverJS Testpage');
             })
-            .end(done);
+            .call(done);
 
     });
 
