@@ -35,6 +35,7 @@ module.exports = function(grunt) {
                 quiet: false,
                 nospawn: false
             }),
+            sessionID = null,
             capabilities = deepmerge(options,this.data.options || {}),
             tunnelIdentifier = options['tunnel-identifier'] || (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-identifier'] : null) || null,
             tunnelFlags = (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-flags'] : []) || [],
@@ -248,6 +249,11 @@ module.exports = function(grunt) {
             function(args,callback) {
                 grunt.log.debug('run mocha tests');
 
+                /**
+                 * save session ID
+                 */
+                sessionID = GLOBAL.browser.requestHandler.sessionID;
+
                 mocha.run(next.bind(callback));
             },
 
@@ -295,7 +301,7 @@ module.exports = function(grunt) {
                         password: options.key
                     });
 
-                    sauceAccount.updateJob(GLOBAL.browser.requestHandler.sessionID, {
+                    sauceAccount.updateJob(sessionID, {
                         passed: args === 0,
                         public: true
                     }, next.bind(callback,args === 0));
