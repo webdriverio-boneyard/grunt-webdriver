@@ -238,3 +238,4 @@ maintain the existing coding style.
 * 2014-11-27   v0.4.5   Updated WebdriverIO package version, smaller bugfixes regarding file output
 * 2014-11-27   v0.4.6   Additional bugfixes
 * 2014-11-27   v0.4.7   check isLastTask properly
+* 2014-11-27   v0.4.8   bugfix
