@@ -35,7 +35,7 @@
     "webdriverio": "^2.3.0",
     "saucelabs": "^0.1.1",
     "sauce-tunnel": "^2.0.1",
-    "selenium-standalone": "^2.41.0-2.9.0-1",
+    "selenium-standalone": "^2.41.0-2.9.0-1 <2.44",
     "deepmerge": "^0.2.7",
     "hooker": "^0.2.3",
     "path": "^0.4.9",
