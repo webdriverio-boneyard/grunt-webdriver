@@ -1,15 +1,14 @@
-var Mocha         = require('mocha'),
-    SauceLabs     = require('saucelabs'),
-    SauceTunnel   = require('sauce-tunnel'),
-    selenium      = require('selenium-standalone'),
-    webdriverio   = require('webdriverio'),
-    util          = require('util'),
-    http          = require('http'),
-    async         = require('async'),
-    hooker        = require('hooker'),
-    path          = require('path'),
-    fs            = require('fs-extra'),
-    deepmerge     = require('deepmerge'),
+var Mocha = require('mocha'),
+    SauceLabs = require('saucelabs'),
+    SauceTunnel = require('sauce-tunnel'),
+    selenium = require('selenium-standalone'),
+    webdriverio = require('webdriverio'),
+    http = require('http'),
+    async = require('async'),
+    hooker = require('hooker'),
+    path = require('path'),
+    fs = require('fs-extra'),
+    deepmerge = require('deepmerge'),
     server = null,
     isSeleniumServerRunning = false,
     tunnel = null,
@@ -38,7 +37,7 @@ module.exports = function(grunt) {
                 seleniumInstallOptions: {}
             }),
             sessionID = null,
-            capabilities = deepmerge(options,this.data.options || {}),
+            capabilities = deepmerge(options, this.data.options || {}),
             tunnelIdentifier = options['tunnel-identifier'] || (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-identifier'] : null) || null,
             tunnelFlags = (capabilities.desiredCapabilities ? capabilities.desiredCapabilities['tunnel-flags'] : []) || [],
             fd;
@@ -71,7 +70,7 @@ module.exports = function(grunt) {
          * hook process.stdout.write to save reporter output into file
          * thanks to https://github.com/pghalliday/grunt-mocha-test
          */
-        if(!isHookedUp) {
+        if (!isHookedUp) {
             if (options.output) {
                 fs.mkdirsSync(path.dirname(options.output));
                 fd = fs.openSync(options.output, 'w');
@@ -116,13 +115,13 @@ module.exports = function(grunt) {
         /**
          * initialise tunnel
          */
-        if(!tunnel && options.user && options.key && tunnelIdentifier) {
-            tunnel = new SauceTunnel(options.user , options.key, tunnelIdentifier, true, tunnelFlags);
+        if (!tunnel && options.user && options.key && tunnelIdentifier) {
+            tunnel = new SauceTunnel(options.user, options.key, tunnelIdentifier, true, tunnelFlags);
             tunnel.on('verbose:debug', grunt.log.debug);
         }
 
         // Clear require cache to allow for multiple execution of same mocha commands
-        Object.keys(require.cache).forEach(function (key) {
+        Object.keys(require.cache).forEach(function(key) {
             delete require.cache[key];
         });
 
@@ -140,7 +139,7 @@ module.exports = function(grunt) {
              */
             function(callback) {
 
-                if(tunnel) {
+                if (tunnel) {
                     return callback(null);
                 }
 
@@ -166,19 +165,19 @@ module.exports = function(grunt) {
              *  install drivers if needed
              */
             function(callback) {
-                if(!tunnel) {
-                    grunt.log.debug('installing driver if needed');
-                    selenium.install(options.seleniumInstallOptions, function(err) {
-                        if (err) {
-                            grunt.fail.warn(err);
-                        } else {
-                            grunt.log.debug('driver installed');
-                            callback(null);
-                        }
-                    });
-                } else {
-                    callback(null);
+                if (tunnel || isSeleniumServerRunning) {
+                    return callback(null);
                 }
+
+                grunt.log.debug('installing driver if needed');
+                selenium.install(options.seleniumInstallOptions, function(err) {
+                    if (err) {
+                        return grunt.fail.warn(err);
+                    }
+
+                    grunt.log.debug('driver installed');
+                    callback(null);
+                });
             },
 
             /**
@@ -186,10 +185,10 @@ module.exports = function(grunt) {
              */
             function(callback) {
 
-                if(tunnel) {
+                if (tunnel) {
 
-                    if(isSauceTunnelRunning) {
-                        return callback(null,true);
+                    if (isSauceTunnelRunning) {
+                        return callback(null, true);
                     }
 
                     grunt.log.debug('start sauce tunnel');
@@ -199,7 +198,7 @@ module.exports = function(grunt) {
                      */
                     tunnel.start(next.bind(callback));
 
-                } else if(!server && !isSeleniumServerRunning && !options.nospawn) {
+                } else if (!server && !isSeleniumServerRunning && !options.nospawn) {
 
                     grunt.log.debug('start selenium standalone server');
 
@@ -215,11 +214,11 @@ module.exports = function(grunt) {
                             isSeleniumServerRunning = true;
                         }
 
-                        callback(null,true);
+                        callback(null, true);
                     });
 
                 } else {
-                    callback(null,true);
+                    callback(null, true);
                 }
 
             },
@@ -227,22 +226,20 @@ module.exports = function(grunt) {
             /**
              * check if server is ready
              */
-            function(output,callback) {
+            function(output, callback) {
 
-                if(tunnel && !isSauceTunnelRunning) {
-
-                    // output here means if tunnel was created successfully
-                    if(output === false) {
-                        grunt.fail.warn(new Error('Sauce-Tunnel couldn\'t created successfully'));
-                    }
-
-                    grunt.log.debug('tunnel created successfully');
-                    isSauceTunnelRunning = true;
-                    callback(null);
-
-                } else {
-                    callback(null);
+                if (!tunnel && isSauceTunnelRunning) {
+                    return callback(null);
                 }
+
+                // output here means if tunnel was created successfully
+                if (output === false) {
+                    grunt.fail.warn(new Error('Sauce-Tunnel couldn\'t created successfully'));
+                }
+
+                grunt.log.debug('tunnel created successfully');
+                isSauceTunnelRunning = true;
+                callback(null);
 
             },
 
@@ -258,7 +255,7 @@ module.exports = function(grunt) {
             /**
              * run mocha tests
              */
-            function(args,callback) {
+            function(args, callback) {
                 grunt.log.debug('run mocha tests');
 
                 /**
@@ -270,31 +267,31 @@ module.exports = function(grunt) {
             },
 
             /**
-             * handle test results
+             * end selenium session
              */
-            function(args,callback) {
-                grunt.log.debug('handle test results');
+            function(args, callback) {
+                grunt.log.debug('end selenium session');
 
                 // Restore grunt exception handling
                 unmanageExceptions();
 
                 // Close Remote sessions if needed
-                GLOBAL.browser.end(next.bind(callback,args));
+                GLOBAL.browser.end(next.bind(callback, args));
             },
 
             /**
              * destroy sauce tunnel if connected (once all tasks were executed)
              */
-            function(args,callback) {
+            function(args, callback) {
 
-                if(isLastTask && isSauceTunnelRunning) {
+                if (isLastTask && isSauceTunnelRunning) {
 
                     grunt.log.debug('destroy sauce tunnel if connected (once all tasks were executed)');
-                    tunnel.stop(next.bind(callback,args));
+                    tunnel.stop(next.bind(callback, args));
 
                 } else {
 
-                    callback(null,args);
+                    callback(null, args);
 
                 }
 
@@ -303,36 +300,31 @@ module.exports = function(grunt) {
             /**
              * update job on Sauce Labs
              */
-            function(args,callback) {
+            function(args, callback) {
                 grunt.log.debug('update job on Sauce Labs');
 
-                if(options.user && options.key && options.updateSauceJob) {
-
-                    var sauceAccount = new SauceLabs({
-                        username: options.user,
-                        password: options.key
-                    });
-
-                    sauceAccount.updateJob(sessionID, {
-                        passed: args === 0,
-                        public: true
-                    }, next.bind(callback,args === 0));
-
-                } else {
-
-                    callback(null,args === 0);
-
+                if (!options.user && !options.key && !options.updateSauceJob) {
+                    return callback(null, args === 0);
                 }
 
+                var sauceAccount = new SauceLabs({
+                    username: options.user,
+                    password: options.key
+                });
+
+                sauceAccount.updateJob(sessionID, {
+                    passed: args === 0,
+                    public: true
+                }, next.bind(callback, args === 0));
             },
 
             /**
              * finish grunt task
              */
-            function(args,callback){
-                grunt.log.debug('finish grunt task',args);
+            function(args, callback) {
+                grunt.log.debug('finish grunt task', args);
 
-                if(isLastTask) {
+                if (isLastTask) {
 
                     // close the file if it was opened
                     if (fd) {
