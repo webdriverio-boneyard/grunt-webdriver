@@ -155,6 +155,18 @@ Default: *false*
 
 If true it will not spawn a new selenium server process (useful if you use Sauce Labs without Sauce Tunnel)
 
+#### seleniumOptions
+Type: `Object`<br>
+Default: `{}`
+
+Options for starting the Selenium server. For more information check out the [selenium-standalone](https://github.com/vvo/selenium-standalone#seleniumstartopts-cb) project.
+
+#### seleniumInstallOptions
+Type: `Object`<br>
+Default: `{}`
+
+Options for installing Selenium dependencies. For more information check out the [selenium-standalone](https://github.com/vvo/selenium-standalone#seleniuminstallopts-cb) project.
+
 ### Usage Examples
 
 #### Required Options
