@@ -230,7 +230,7 @@ module.exports = function(grunt) {
              */
             function(output, callback) {
 
-                if (!tunnel && isSauceTunnelRunning) {
+                if (!tunnel || isSauceTunnelRunning) {
                     return callback(null);
                 }
 
