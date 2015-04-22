@@ -116,6 +116,7 @@ module.exports = function(grunt) {
          * initialise tunnel
          */
         if (!tunnel && options.user && options.key && tunnelIdentifier) {
+            grunt.log.debug('initialise test session using sauce tunnel from user ' + options.user);
             tunnel = new SauceTunnel(options.user, options.key, tunnelIdentifier, true, tunnelFlags);
             tunnel.on('verbose:debug', grunt.log.debug);
         }
@@ -218,6 +219,7 @@ module.exports = function(grunt) {
                     });
 
                 } else {
+                    grunt.log.debug('standalone server or sauce tunnel is running');
                     callback(null, true);
                 }
 
