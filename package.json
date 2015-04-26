@@ -30,15 +30,14 @@
     "test": "grunt test --debug"
   },
   "dependencies": {
-    "async": "^0.7.0",
-    "mocha": "^1.18.0",
-    "webdriverio": "^2.3.0",
+    "async": "^0.9.0",
+    "mocha": "^2.2.4",
+    "webdriverio": "^2.4.5",
     "saucelabs": "^0.1.1",
-    "sauce-tunnel": "^2.0.1",
+    "sauce-tunnel": "^2.2.3",
     "selenium-standalone": "^4.4.0",
     "deepmerge": "^0.2.7",
     "hooker": "^0.2.3",
-    "path": "^0.4.9",
     "fs-extra": "^0.8.1"
   },
   "devDependencies": {
