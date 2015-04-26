@@ -252,3 +252,4 @@ maintain the existing coding style.
 * 2014-11-27   v0.4.7   check isLastTask properly
 * 2014-11-27   v0.4.8   bugfix
 * 2015-04-22   v0.5.0   updated selenium-standalone dependency
+* 2015-04-26   v0.5.1   better handling of different environments - closes [webdriverio/webdriverio#506](https://github.com/webdriverio/webdriverio/issues/506)
