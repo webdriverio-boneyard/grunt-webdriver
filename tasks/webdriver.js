@@ -49,6 +49,18 @@ module.exports = function(grunt) {
         var isLastTask = queue.length === 0;
 
         /**
+         * initialise tunnel
+         */
+        if (!tunnel && options.user && options.key && tunnelIdentifier) {
+            grunt.log.debug('initialise test session using sauce tunnel from user ' + options.user);
+            tunnel = new SauceTunnel(options.user, options.key, tunnelIdentifier, true, tunnelFlags);
+            tunnel.on('verbose:debug', grunt.log.debug);
+
+            capabilities.host = undefined;
+            capabilities.port = 4445;
+        }
+
+        /**
          * initialize WebdriverIO
          */
         grunt.log.debug('run webdriverio with following capabilities: ' + JSON.stringify(capabilities));
@@ -111,15 +123,6 @@ module.exports = function(grunt) {
         var unmanageExceptions = function() {
             uncaughtExceptionHandlers.forEach(process.on.bind(process, 'uncaughtException'));
         };
-
-        /**
-         * initialise tunnel
-         */
-        if (!tunnel && options.user && options.key && tunnelIdentifier) {
-            grunt.log.debug('initialise test session using sauce tunnel from user ' + options.user);
-            tunnel = new SauceTunnel(options.user, options.key, tunnelIdentifier, true, tunnelFlags);
-            tunnel.on('verbose:debug', grunt.log.debug);
-        }
 
         // Clear require cache to allow for multiple execution of same mocha commands
         Object.keys(require.cache).forEach(function(key) {
