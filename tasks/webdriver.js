@@ -147,8 +147,8 @@ module.exports = function(grunt) {
                 grunt.log.debug('checking if selenium is running');
 
                 var options = {
-                    host: 'localhost',
-                    port: 4444,
+                    host: capabilities.host || 'localhost',
+                    port: capabilities.port || 4444,
                     path: '/wd/hub/status'
                 };
 
