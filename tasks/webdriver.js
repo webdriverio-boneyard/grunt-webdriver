@@ -12,6 +12,7 @@ var Mocha = require('mocha'),
     server = null,
     isSeleniumServerRunning = false,
     tunnel = null,
+    seleniumServer = null,
     isSauceTunnelRunning = false,
     isHookedUp = false;
 
@@ -285,21 +286,21 @@ module.exports = function(grunt) {
             },
 
             /**
-             * destroy sauce tunnel if connected (once all tasks were executed)
+             * destroy sauce tunnel if connected (once all tasks were executed) or
+             * kill selenium server process if created
              */
-            function(args, callback) {
+            function(result) {
+                var callback = arguments[arguments.length - 1];
 
                 if (isLastTask && isSauceTunnelRunning) {
-
                     grunt.log.debug('destroy sauce tunnel if connected (once all tasks were executed)');
-                    tunnel.stop(next.bind(callback, args));
-
-                } else {
-
-                    callback(null, args);
-
+                    return tunnel.stop(next(callback, result));
+                } else if (isLastTask && seleniumServer) {
+                    grunt.log.debug('kill selenium server');
+                    seleniumServer.kill();
                 }
 
+                callback(null, result);
             },
 
             /**
