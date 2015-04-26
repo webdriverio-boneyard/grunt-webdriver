@@ -133,8 +133,19 @@ module.exports = function(grunt) {
         /**
          * helper function for asyncjs
          */
-        var next = function() {
-            this.call(null, null, Array.prototype.slice.call(arguments)[0]);
+        var next = function(cb, param) {
+            return function() {
+                var args = Array.prototype.slice.call(arguments, 1);
+
+                if(typeof param !== 'undefined') {
+                    args.unshift(param);
+                } else if (arguments.length === 1) {
+                    args.unshift(arguments[0]);
+                }
+
+                args.unshift(null);
+                cb.apply(null, args);
+            }
         }
 
         async.waterfall([
@@ -177,7 +188,7 @@ module.exports = function(grunt) {
                 grunt.log.debug('installing driver if needed');
                 selenium.install(options.seleniumInstallOptions, function(err) {
                     if (err) {
-                        return grunt.fail.warn(err);
+                        return callback(err);
                     }
 
                     grunt.log.debug('driver installed');
@@ -201,7 +212,16 @@ module.exports = function(grunt) {
                     /**
                      * start sauce tunnel
                      */
-                    tunnel.start(next.bind(callback));
+                    tunnel.start(function(hasTunnelStarted) {
+                        // output here means if tunnel was created successfully
+                        if (hasTunnelStarted === false) {
+                            callback(new Error('Sauce-Tunnel couldn\'t created successfully'));
+                        }
+
+                        grunt.log.debug('tunnel created successfully');
+                        isSauceTunnelRunning = true;
+                        callback(null);
+                    });
 
                 } else if (!server && !isSeleniumServerRunning && !options.nospawn) {
 
@@ -211,14 +231,14 @@ module.exports = function(grunt) {
                      * starts selenium standalone server if its not running
                      */
 
-                    server = selenium.start(options.seleniumOptions, function(err) {
+                    server = selenium.start(options.seleniumOptions, function(err, child) {
                         if (err) {
-                            grunt.fail.warn(err);
-                        } else {
-                            grunt.log.debug('selenium successfully started');
-                            isSeleniumServerRunning = true;
+                            return callback(err);
                         }
 
+                        grunt.log.debug('selenium successfully started');
+                        seleniumServer = child;
+                        isSeleniumServerRunning = true;
                         callback(null, true);
                     });
 
@@ -230,38 +250,24 @@ module.exports = function(grunt) {
             },
 
             /**
-             * check if server is ready
-             */
-            function(output, callback) {
-
-                if (!tunnel || isSauceTunnelRunning) {
-                    return callback(null);
-                }
-
-                // output here means if tunnel was created successfully
-                if (output === false) {
-                    grunt.fail.warn(new Error('Sauce-Tunnel couldn\'t created successfully'));
-                }
-
-                grunt.log.debug('tunnel created successfully');
-                isSauceTunnelRunning = true;
-                callback(null);
-
-            },
-
-            /**
              * init WebdriverIO instance
              */
-            function(callback) {
+            function() {
+                var callback = arguments[arguments.length - 1];
                 grunt.log.debug('init WebdriverIO instance');
 
-                GLOBAL.browser.init().call(next.bind(callback));
+                GLOBAL.browser.init(function(err) {
+                    /**
+                     * gracefully kill process if init fails
+                     */
+                    callback(err);
+                });
             },
 
             /**
              * run mocha tests
              */
-            function(args, callback) {
+            function(callback) {
                 grunt.log.debug('run mocha tests');
 
                 /**
@@ -269,20 +275,20 @@ module.exports = function(grunt) {
                  */
                 sessionID = GLOBAL.browser.requestHandler.sessionID;
 
-                mocha.run(next.bind(callback));
+                mocha.run(next(callback));
             },
 
             /**
              * end selenium session
              */
-            function(args, callback) {
+            function(result, callback) {
                 grunt.log.debug('end selenium session');
 
                 // Restore grunt exception handling
                 unmanageExceptions();
 
                 // Close Remote sessions if needed
-                GLOBAL.browser.end(next.bind(callback, args));
+                GLOBAL.browser.end(next(callback, result === 0));
             },
 
             /**
@@ -306,29 +312,31 @@ module.exports = function(grunt) {
             /**
              * update job on Sauce Labs
              */
-            function(args, callback) {
-                grunt.log.debug('update job on Sauce Labs');
+            function(result) {
+                var callback = arguments[arguments.length - 1];
 
                 if (!options.user && !options.key && !options.updateSauceJob) {
-                    return callback(null, args === 0);
+                    return callback(null, result);
                 }
 
+                grunt.log.debug('update job on Sauce Labs');
                 var sauceAccount = new SauceLabs({
                     username: options.user,
                     password: options.key
                 });
 
                 sauceAccount.updateJob(sessionID, {
-                    passed: args === 0,
+                    passed: result,
                     public: true
-                }, next.bind(callback, args === 0));
+                }, next(callback, result));
             },
 
             /**
              * finish grunt task
              */
-            function(args, callback) {
-                grunt.log.debug('finish grunt task', args);
+            function(result) {
+                var callback = arguments[arguments.length - 1];
+                grunt.log.debug('finish grunt task');
 
                 if (isLastTask) {
 
@@ -342,10 +350,43 @@ module.exports = function(grunt) {
 
                 }
 
-                done(args);
+                done(result);
                 callback();
             }
-        ]);
+        ], function(err) {
+
+            /**
+             * if no error happened, we are good
+             */
+            if(!err) {
+                return;
+            }
+
+            grunt.log.debug('An error happened, shutting down services');
+
+            var logTunnelStopped = function() {
+                grunt.log.debug('tunnel closed successfully');
+                grunt.fail.warn(err);
+            }
+
+            if(sessionID) {
+                return GLOBAL.browser.end(function() {
+                    grunt.log.debug('Selenium session closed successfully');
+
+                    if(isSauceTunnelRunning) {
+                        return tunnel.stop(logTunnelStopped);
+                    }
+
+                    grunt.fail.warn(err);
+                });
+            }
+
+            if(isSauceTunnelRunning) {
+                return tunnel.stop(logTunnelStopped);
+            }
+
+            grunt.fail.warn(err);
+        });
 
     });
 
