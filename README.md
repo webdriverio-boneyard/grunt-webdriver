@@ -55,10 +55,9 @@ grunt.initConfig({
 })
 ```
 
-#### example using [Sauce Labs](https://saucelabs.com)
+#### Example using [Sauce Labs](https://saucelabs.com)
 
-If you specify a `tunnel-identifier` within your `desiredCapabilities` object, the task
-will automatically try to establish a tunnel connection via [Sauce Connect](https://saucelabs.com/docs/connect).
+To use a cloud service like [Sauce Labs](https://saucelabs.com) make sure you define `host` and `port` properties like in the example below as well as authenticate yourself with your username and key.
 
 ```js
 grunt.initConfig({
@@ -71,8 +70,37 @@ grunt.initConfig({
         desiredCapabilities: {
             browserName: 'chrome',
             version: '27',
+            platform: 'XP'
+        }
+    },
+    login: {
+        tests: ['test/spec/login/*.js']
+    },
+    form: {
+        tests: ['test/spec/form/*.js']
+    }
+    // ...
+  },
+})
+```
+
+#### Example using [Sauce Connect](https://saucelabs.com/docs/connect)
+
+If you specify a `tunnel-identifier` within your `desiredCapabilities` object, the task
+will automatically try to establish a tunnel connection via [Sauce Connect](https://saucelabs.com/docs/connect). With the `tunnel-flags` property you can pass [command line options](https://docs.saucelabs.com/reference/sauce-connect/#command-line-options) to the created Sauce Tunnel.
+
+```js
+grunt.initConfig({
+  webdriver: {
+    options: {
+        user: SAUCE_USERNAME,
+        key: SAUCE_ACCESS_KEY,
+        desiredCapabilities: {
+            browserName: 'chrome',
+            version: '27',
             platform: 'XP',
-            'tunnel-identifier': 'my-tunnel'
+            'tunnel-identifier': 'my-test-tunnel',
+            'tunnel-flags': [ '-vv', '-l sauce_connect_tech_support.log' ]
         }
     },
     login: {
