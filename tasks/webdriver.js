@@ -1,3 +1,5 @@
+'use strict';
+
 var Mocha = require('mocha'),
     SauceLabs = require('saucelabs'),
     SauceTunnel = require('sauce-tunnel'),
@@ -20,8 +22,7 @@ module.exports = function(grunt) {
 
     grunt.registerMultiTask('webdriver', 'run WebdriverIO tests with Mocha', function() {
 
-        var that = this,
-            done = this.async(),
+        var done = this.async(),
             base = process.cwd(),
             options = this.options({
                 reporter: 'spec',
@@ -44,7 +45,7 @@ module.exports = function(grunt) {
             fd;
 
         var queue = grunt.task._queue.filter(function(task) {
-            return typeof task.placeholder === 'undefined'
+            return typeof task.placeholder === 'undefined';
         });
 
         var isLastTask = queue.length === 0;
@@ -145,8 +146,8 @@ module.exports = function(grunt) {
 
                 args.unshift(null);
                 cb.apply(null, args);
-            }
-        }
+            };
+        };
 
         async.waterfall([
 
@@ -367,7 +368,7 @@ module.exports = function(grunt) {
             var logTunnelStopped = function() {
                 grunt.log.debug('tunnel closed successfully');
                 grunt.fail.warn(err);
-            }
+            };
 
             if(sessionID) {
                 return GLOBAL.browser.end(function() {
