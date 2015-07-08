@@ -254,6 +254,29 @@ module.exports = function(grunt) {
 }
 ```
 
+#### Simulating the before/after hooks
+
+If you would like to run code before or after your tests (for example to configure assertion frameworks) you can specify a script that grunt will run before your test files, like so:
+
+```js
+tests: ['test/before.js', 'test/spec/**/*.js', 'test/after.js']
+```
+
+Your `before.js` file could contain something like this:
+
+```js
+describe('setup test suite', function() {
+    it('should setup the test', function() {
+        var chai = require('chai');
+        var chaiAsPromised = require('chai-as-promised');
+        chai.use(chaiAsPromised);
+        chai.should();
+        GLOBAL.assert = chai.assert;
+    });
+});
+```
+You will be able to see `assert` within all the following test files.
+
 ## Contributing
 Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to
 maintain the existing coding style.
