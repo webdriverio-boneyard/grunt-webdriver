@@ -31,14 +31,9 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "mocha": "^2.2.4",
-    "webdriverio": "^2.4.5",
-    "saucelabs": "^0.1.1",
-    "sauce-tunnel": "^2.2.3",
-    "selenium-standalone": "^4.4.2",
+    "dargs": "^4.0.1",
     "deepmerge": "^0.2.7",
-    "hooker": "^0.2.3",
-    "fs-extra": "^0.8.1"
+    "selenium-standalone": "^4.4.2"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^0.10.0",
@@ -49,11 +44,14 @@
   },
   "keywords": [
     "grunt",
+    "plugin",
     "webdriverjs",
     "webdriverio",
     "webdriver",
     "selenium",
     "mocha",
+    "jasmine",
+    "cucumber",
     "bdd",
     "tdd",
     "saucelabs",

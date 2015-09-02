@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        
+
         // Configuration to be run (and then tested).
         webdriver: {
             options: {
@@ -11,42 +11,10 @@ module.exports = function(grunt) {
                 key: process.env.SAUCE_ACCESS_KEY,
                 logLevel: 'verbose'
             },
-            chrome_ci: {
-                tests: './test/*.js',
-                options: {
-                    host: 'ondemand.saucelabs.com',
-                    port: 80,
-                    desiredCapabilities: {
-                        browserName: 'chrome',
-                        platform: 'Windows 8',
-                        version: '31',
-                        tags: ['chrome','Windows 8','31'],
-                        name: 'grunt-webdriver test',
-                        build: process.env.TRAVIS_BUILD_NUMBER || '008'
-                    }
-                }
-            },
-            chrome_ciTunnel: {
-                tests: './test/*.js',
-                options: {
-                    port: 4445,
-                    desiredCapabilities: {
-                        browserName: 'chrome',
-                        platform: 'Windows 8',
-                        version: '31',
-                        tags: ['chrome','Windows 8','31','sauce connect'],
-                        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-                        name: 'grunt-webdriver test',
-                        build: process.env.TRAVIS_BUILD_NUMBER
-                    }
-                }
-            },
-            local: {
-                tests: './test/*.js',
-                options: {
-                    desiredCapabilities: { 
-                        browserName: 'phantomjs'
-                    }
+            testTargetConfigFile: {
+                configFile: './test/wdio.conf.js',
+                cucumberOpts: {
+                    require: 'lalala'
                 }
             }
         },
