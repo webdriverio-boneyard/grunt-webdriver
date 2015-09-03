@@ -3,8 +3,6 @@
 var path = require('path'),
     fs = require('fs'),
     dargs = require('dargs'),
-    split = require('split'),
-    through2 = require('through2'),
     deepmerge = require('deepmerge');
 
 module.exports = function(grunt) {
