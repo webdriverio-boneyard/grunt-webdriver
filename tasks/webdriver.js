@@ -46,22 +46,18 @@ module.exports = function(grunt) {
             cmd: opts.nodeBin,
             args: args,
             opts: {
-                stdio:'pipe'
+                stdio: 'inherit'
             }
         }, function(error, result, code) {
             grunt.log.debug('wdio testrunner finished with exit code', code);
 
             if (error) {
-                grunt.log.error(String(result));
+                grunt.log.error(String(result.stderr));
             }
 
-            done();
+            done(code === 0);
             done = null;
         });
-
-        process.stdin.pipe(child.stdin);
-        child.stdout.pipe(process.stdout);
-        child.stderr.pipe(process.stderr);
 
         // Write the result in the output file
         if (!grunt.util._.isUndefined(opts.output) && opts.output !== false) {
