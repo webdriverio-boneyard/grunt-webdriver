@@ -21,6 +21,7 @@ WebdriverIO version installed as dependency:
 
 ```shell
 npm install --save-dev webdriverio
+``
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile
 with this line of JavaScript:
@@ -75,7 +76,7 @@ grunt.initConfig({
 ### Options
 
 All options get passed into to the wdio process. You should define your main configurations
-within your wdio config file. The plugin allows you to overwrite them. You can find all available
+within your wdio config file. The plugin allows you to easy overwrite them. You can find all available
 cli arguments here: [http://webdriver.io/guide/testrunner/gettingstarted.html](http://webdriver.io/guide/testrunner/gettingstarted.html)
 
 #### Using CoffeeScript
