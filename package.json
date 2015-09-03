@@ -33,7 +33,9 @@
     "async": "^0.9.0",
     "dargs": "^4.0.1",
     "deepmerge": "^0.2.7",
-    "selenium-standalone": "^4.4.2"
+    "selenium-standalone": "^4.4.2",
+    "split": "^1.0.0",
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^0.10.0",
