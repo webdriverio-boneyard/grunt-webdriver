@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
         var done = this.async(),
             base = process.cwd(),
-            wdioBin = path.join(base, '..', 'webdriverio', 'bin') + '/wdio';
+            wdioBin = path.join(base, 'node_modules', 'webdriverio', 'bin') + '/wdio';
 
         var opts = deepmerge(this.options({
             nodeBin: 'node',
