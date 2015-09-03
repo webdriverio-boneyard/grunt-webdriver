@@ -18,8 +18,7 @@ module.exports = function(grunt) {
         var opts = deepmerge(this.options({
             nodeBin: 'node',
             wdioBin: wdioBin,
-            args: {},
-            output: false
+            args: {}
         }), this.data);
 
         /**
@@ -42,7 +41,7 @@ module.exports = function(grunt) {
         }));
 
         grunt.log.debug('spawn wdio with these attributes:\n', args.join('\n'));
-        var child = grunt.util.spawn({
+        grunt.util.spawn({
             cmd: opts.nodeBin,
             args: args,
             opts: {
@@ -58,24 +57,5 @@ module.exports = function(grunt) {
             done(code === 0);
             done = null;
         });
-
-        // Write the result in the output file
-        if (!grunt.util._.isUndefined(opts.output) && opts.output !== false) {
-            grunt.log.debug('Output test result to: ' + opts.output);
-            grunt.file.mkdir(path.dirname(opts.output));
-
-            child
-                .stdout
-                .pipe(split())
-                .pipe(through2(function (chunk, encoding, callback) {
-                    if (!(/^Using the selenium server at/).test(chunk.toString())) {
-                        this.push(chunk + '\n');
-                    }
-                    callback();
-                }))
-                .pipe(fs.createWriteStream(opts.output));
-        }
-
     });
-
 };
