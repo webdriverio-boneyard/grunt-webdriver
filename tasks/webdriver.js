@@ -36,10 +36,10 @@ module.exports = function(grunt) {
             grunt.util.error('No config file found');
         }
 
-        var args = dargs(opts, {
+        var args = process.execArgv.concat([wdioBin, opts.configFile]).concat(dargs(opts, {
             excludes: ['nodeBin', 'wdioBin'],
             keepCamelCase: true
-        });
+        }));
 
         grunt.log.debug('spawn wdio with these attributes:\n', args.join('\n'));
         var child = grunt.util.spawn({
