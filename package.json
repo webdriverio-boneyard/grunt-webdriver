@@ -26,16 +26,17 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "travis": "grunt testTravis --debug",
     "test": "grunt test --debug"
   },
   "dependencies": {
-    "dargs": "^4.0.1",
+    "dargs": "christian-bromann/dargs",
     "deepmerge": "^0.2.7"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt": "^0.4.2"
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2",
+    "mocha": "^2.3.0",
+    "webdriverio": "^3.2.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.2"

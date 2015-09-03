@@ -1,33 +1,41 @@
 module.exports = function(grunt) {
 
-    // Project configuration.
     grunt.initConfig({
+        jshint: {
+            all: [
+                'Gruntfile.js',
+                'tasks/*.js',
+                'test/*.js'
+            ],
+            options: {
+                jshintrc: '.jshintrc',
+            },
+        },
 
-        // Configuration to be run (and then tested).
         webdriver: {
             options: {
-                updateSauceJob: true,
                 user: process.env.SAUCE_USERNAME,
                 key: process.env.SAUCE_ACCESS_KEY,
-                logLevel: 'verbose'
+                logLevel: 'command',
+                updateJob: true,
+                waitforTimeout: 12345,
+                framework: 'mocha'
             },
             testTargetConfigFile: {
                 configFile: './test/wdio.conf.js',
                 cucumberOpts: {
-                    require: 'lalala'
+                    require: 'nothing'
                 }
             }
         },
 
     });
 
-    // Actually load this plugin's task(s).
+    // load this plugin's task
     grunt.loadTasks('tasks');
-
-    // By default, lint and run all tests.
-    grunt.registerTask('default', ['jshint', 'webdriver']);
+    // load helper tasks
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     // default task for testing
-    grunt.registerTask('test', ['webdriver:local']);
-    grunt.registerTask('testTravis', ['webdriver:chrome_ci' ,'webdriver:chrome_ciTunnel']);
+    grunt.registerTask('test', ['jshint', 'webdriver']);
 
 };
