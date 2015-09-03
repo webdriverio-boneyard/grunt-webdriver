@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "dargs": "^4.0.1",
-    "deepmerge": "^0.2.7",
+    "deepmerge": "^0.2.7"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^0.10.0",
