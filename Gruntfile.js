@@ -14,8 +14,6 @@ module.exports = function(grunt) {
 
         webdriver: {
             options: {
-                user: process.env.SAUCE_USERNAME,
-                key: process.env.SAUCE_ACCESS_KEY,
                 logLevel: 'command',
                 updateJob: true,
                 waitforTimeout: 12345,
