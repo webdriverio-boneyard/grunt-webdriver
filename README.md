@@ -1,7 +1,6 @@
 # grunt-webdriver [![Build Status](https://travis-ci.org/webdriverio/grunt-webdriver.png)](https://travis-ci.org/webdriverio/grunt-webdriver) [![Join the chat at https://gitter.im/webdriverio/grunt-webdriver](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webdriverio/grunt-webdriver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-> grunt-webdriver is a grunt plugin to run selenium tests with the [WebdriverIO](http://webdriver.io) testrunner, called [wdio](http://webdriver.io/guide/testrunner/gettingstarted.html)
-
+> grunt-webdriver is a grunt plugin to run selenium tests with the [WebdriverIO](http://webdriver.io) testrunner
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
