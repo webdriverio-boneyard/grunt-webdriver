@@ -21,7 +21,7 @@ WebdriverIO version installed as dependency:
 
 ```shell
 npm install --save-dev webdriverio
-``
+```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile
 with this line of JavaScript:
