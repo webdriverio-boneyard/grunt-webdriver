@@ -33,7 +33,7 @@ module.exports = function(grunt) {
             grunt.util.error('No config file found');
         }
 
-        var args = process.execArgv.concat([wdioBin, opts.configFile]).concat(dargs(opts, {
+        var args = process.execArgv.concat([opts.wdioBin, opts.configFile]).concat(dargs(opts, {
             excludes: ['nodeBin', 'wdioBin'],
             keepCamelCase: true
         }));
