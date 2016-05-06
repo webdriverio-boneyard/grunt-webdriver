@@ -18,5 +18,8 @@ exports.config = {
     waitforTimeout: 10000,
 
     framework: 'cucumber', // gets overwritten in gruntfile
+    mochaOpts: {
+        timeout: 30000
+    },
     reporter: 'dot'
 }

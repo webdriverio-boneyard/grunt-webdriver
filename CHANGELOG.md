@@ -24,3 +24,4 @@
 * 2015-04-26   v0.5.1   better handling of different environments - closes [webdriverio/webdriverio#506](https://github.com/webdriverio/webdriverio/issues/506)
 * 2015-06-04   v0.5.2   update selenium-standalone dependency
 * 2015-09-02   v1.0.0   let grunt-webdriver be a simple tool to run wdio testrunner tests
+* 2016-05-06   v2.0.0   rewritten code to es2016, updated WebdriverIO peer dependency to v4
