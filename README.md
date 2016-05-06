@@ -5,25 +5,13 @@
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out
-the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains
-how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as
-install and use Grunt plugins. Once you're familiar with that process, you may
-install this plugin with this command:
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
 npm install --save-dev grunt-webdriver
 ```
 
-This grunt plugin only runs with WebdriverIO >=v3.x. Make sure you have the latest
-WebdriverIO version installed as dependency:
-
-```shell
-npm install --save-dev webdriverio
-```
-
-Once the plugin has been installed, it may be enabled inside your Gruntfile
-with this line of JavaScript:
+Once the plugin has been installed, it may be enabled inside your gruntfile with this line of JavaScript:
 
 ```js
 grunt.loadNpmTasks('grunt-webdriver');
@@ -32,10 +20,8 @@ grunt.loadNpmTasks('grunt-webdriver');
 ## The "webdriver" task
 
 ### Overview
-In your project's Gruntfile, add a section named `webdriver` to the data
-object passed into `grunt.initConfig()`. Your test should contain a `configFile`
-property with a path to your wdio config. You can pass in additional options
-as cli arguments.
+
+In your project's Gruntfile, add a section named `webdriver` to the data object passed into `grunt.initConfig()`. Your test should contain a `configFile` property with a path to your wdio config. You can pass in additional options as cli arguments.
 
 _Run this task with the `grunt webdriver` command._
 
@@ -50,12 +36,11 @@ grunt.initConfig({
 })
 ```
 
-The plugin is an easy helper to run WebdriverIO tests using the wdio test runner.
-You can find more information about the test runner on our [docs page](http://webdriver.io/guide/testrunner/gettingstarted.html).
+The plugin is an easy helper to run WebdriverIO tests using the wdio test runner. You can find more information about the test runner on our [docs page](http://webdriver.io/guide/testrunner/gettingstarted.html).
 
 #### Example using [Sauce Labs](https://saucelabs.com)
 
-To use a cloud service like [Sauce Labs](https://saucelabs.com) make sure you define `host` and `port` properties like in the example below as well as authenticate yourself with your username and key.
+To use a cloud service like [Sauce Labs](https://saucelabs.com) make sure you define `user` and `key` properties like in the example below to authenticate yourself with your username and access key.
 
 ```js
 grunt.initConfig({
@@ -74,26 +59,7 @@ grunt.initConfig({
 
 ### Options
 
-All options get passed into to the wdio process. You should define your main configurations
-within your wdio config file. The plugin allows you to easy overwrite them. You can find all available
-cli arguments here: [http://webdriver.io/guide/testrunner/gettingstarted.html](http://webdriver.io/guide/testrunner/gettingstarted.html)
-
-#### Using CoffeeScript
-
-If you like to write your tests in CoffeeScript just add the following on the top of your Gruntfile
-and you are set.
-
-```js
-require('coffee-script/register');
-
-module.exports = function(grunt) {
-    // Project configuration.
-    grunt.initConfig({
-        // ...
-    });
-}
-```
+All options get passed into to the wdio testrunner. You should define your main configurations within your wdio config file. The plugin allows you to easy overwrite them. You can find all available cli arguments here: [http://webdriver.io/guide/testrunner/gettingstarted.html](http://webdriver.io/guide/testrunner/gettingstarted.html)
 
 ## Contributing
-Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to
-maintain the existing coding style.
+Please fork, add specs, and send pull requests! In lieu of a formal styleguide, take care to maintain the existing coding style.
