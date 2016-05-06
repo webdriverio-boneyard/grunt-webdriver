@@ -15,7 +15,7 @@ module.exports = function (grunt) {
 
         let wdio = new Launcher(opts.configFile, opts)
 
-        grunt.log.debug(`spawn wdio with these attributes:\n${opts}`)
+        grunt.log.debug(`spawn wdio with these attributes:\n${JSON.stringify(opts, null, 2)}`)
         return wdio.run().then(code => {
             grunt.log.debug(`wdio testrunner finished with exit code ${code}`)
             return done(code === 0)
