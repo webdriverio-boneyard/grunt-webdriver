@@ -1,13 +1,21 @@
 language: node_js
 
 node_js:
-  - '0.10'
+  - '4.4.3'
 
 branches:
   only:
     - master
 
 before_script:
-  - "npm install -g grunt-cli"
+  - npm install -g grunt-cli
 
-script: "npm test"
+addons:
+  sauce_connect: true
+
+script: npm test
+
+env:
+  global:
+    - secure: jSgvvM/F0ghQiIqdfUw1jl/VxEDYkrkWtCJv8KHqTqcMEJMoJX90S/dFLyd33ZZN492rml7Jp/cjmEjWbIUyswrT/XLP9C6dg3cEIJfz/3/Lm0h/KuOdwkuIxetAQD08xV4DBa36vKeBCizZVDe6ywzAuWR8/mEGL9qYaKZBwhw=
+    - secure: SFteaMY+Qe2K907iSjtvq5lhuYQ+rMeoffW+6NanMpAUugMH7OIBi9S6zFcY/RGql6a6b2BY91Cz8w7mL6Kk/U1NXTF8+zT2R7g+ZCtm9FIOYr2bph5PHKp1JkpCUDG6fdPbmMTGYoraZcO6bV/jGYALQB5EJyRfPoQEpxJiOBY=
