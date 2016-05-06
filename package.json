@@ -21,7 +21,9 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt test --debug"
+    "build": "grunt build",
+    "prepublish": "npm prune && npm run build",
+    "test": "grunt webdriver --debug"
   },
   "dependencies": {
     "deepmerge": "^0.2.7",
