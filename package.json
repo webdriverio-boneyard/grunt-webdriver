@@ -69,5 +69,17 @@
     "tdd",
     "saucelabs",
     "gruntplugin"
+  ],
+  "contributors": [
+    "Christian Bromann <github@christian-bromann.com>",
+    "Christian Bromann <contact@christian-bromann.com>",
+    "Patrick Debois <Patrick.Debois@jedi.be>",
+    "anatoly techtonik <techtonik@gmail.com>",
+    "gruntjs-updater <updater@gruntjs.com>",
+    "Ben Boyle <benjamins.boyle@gmail.com>",
+    "thibaut-sticky <thibaut@stickyads.tv>",
+    "Michael Gannon <michael.gannon@gmail.com>",
+    "Michael Heuberger <michael.heuberger@binarykitchen.com>",
+    "Remi Carton <remi@knewton.com>"
   ]
 }
