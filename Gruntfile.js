@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkgFile: 'package.json',
-        clean: ['build'],
+        clean: ['tasks'],
         babel: {
             options: {
                 sourceMap: false
@@ -9,16 +9,16 @@ module.exports = function (grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: './tasks',
+                    cwd: './src',
                     src: ['*.js'],
-                    dest: 'build',
+                    dest: 'tasks',
                     ext: '.js'
                 }]
             }
         },
         watch: {
             dist: {
-                files: ['./tasks/*.js'],
+                files: ['./src/*.js'],
                 tasks: ['babel:dist']
             }
         },
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
             options: {
                 parser: 'babel-eslint'
             },
-            target: ['tasks/*.js']
+            target: ['./src/*.js']
         },
         contributors: {
             options: {
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
     })
 
     require('load-grunt-tasks')(grunt)
-    grunt.loadTasks('build')
+    grunt.loadTasks('tasks')
     grunt.registerTask('default', ['build'])
     grunt.registerTask('build', 'Build grunt-webdriver', function () {
         grunt.task.run([
