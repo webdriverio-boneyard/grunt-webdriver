@@ -1,13 +1,18 @@
 {
-  "extends": "standard",
+  "extends": "eslint:recommended",
   "rules": {
     "indent": [2, 4]
   },
-  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "globals": {
     "expect": true,
     "describe": true,
     "it": true,
     "browser": true
+  },
+  "env": {
+    "node": true
   }
 }
