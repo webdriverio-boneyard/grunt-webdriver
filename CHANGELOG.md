@@ -28,3 +28,4 @@
 * 2016-05-06   v2.0.1   updated dependencies
 * 2016-10-25   v2.0.2   updated dependencies
 * 2016-12-09   v2.0.3   updated dependencies
+* 2018-12-30   v3.0.0   Update WebbdriverIO to v5
