@@ -41,7 +41,7 @@ module.exports = function (grunt) {
         },
         webdriver: {
             options: {
-                logLevel: 'command',
+                logLevel: 'trace',
                 waitforTimeout: 12345,
                 framework: 'mocha',
                 coloredLogs: true
